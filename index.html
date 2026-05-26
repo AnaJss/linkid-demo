@@ -280,7 +280,15 @@ select.filter{padding:9px 11px;border:1.5px solid #E2E8F0;border-radius:9px;font
   </div>
 </div>
 
-<script>function coachNavClick(btn){setCoachNav(btn.getAttribute('data-csnav'));}
+<script>function resetVinc(){vincState='idle';renderVincResult();}
+
+function goVincular()  { renderParentTab('vincular'); }
+function goMensajes()  { renderParentTab('mensajes'); }
+function goHome()      { renderParentTab('home'); }
+function goPin()       { renderParentTab('pin'); }
+function goPerfil()    { renderParentTab('perfil'); }
+function goVincular(){renderParentTab('vincular');}
+function coachNavClick(btn){setCoachNav(btn.getAttribute('data-csnav'));}
 
 function tgPin(btn) {
   var sid = btn.getAttribute('data-sid');
@@ -296,138 +304,172 @@ function goToAlumnos(){setAdminNav('alumnos');}
 
 
 var GROUPS={"bas-varonil-a": {"n": "Basquetbol Varonil A", "short": "Bas. Varonil A", "disc": "Basquetbol", "dias": "Lun/Mi\u00e9", "color": "#1D4ED8", "ico": "\ud83c\udfc0", "coach": "Michel Silva"}, "bas-femenil-a": {"n": "Basquetbol Femenil A", "short": "Bas. Femenil A", "disc": "Basquetbol", "dias": "Lun/Mi\u00e9", "color": "#7C3AED", "ico": "\ud83c\udfc0", "coach": "Michel Silva"}, "bas-b": {"n": "Basquetbol B", "short": "Bas. B", "disc": "Basquetbol", "dias": "Mar/Jue", "color": "#2563EB", "ico": "\ud83c\udfc0", "coach": "Michel Silva"}, "tochito-a": {"n": "Tochito A", "short": "Tochito A", "disc": "Tochito", "dias": "Lun/Mi\u00e9", "color": "#D97706", "ico": "\ud83c\udfc8", "coach": "Carmen León"}, "tochito-b": {"n": "Tochito B", "short": "Tochito B", "disc": "Tochito", "dias": "Mar/Jue", "color": "#B45309", "ico": "\ud83c\udfc8", "coach": "Carmen León"}, "vol-a": {"n": "Voleibol A", "short": "Vol. A", "disc": "Voleibol", "dias": "Lun/Mi\u00e9", "color": "#059669", "ico": "\ud83c\udfd0", "coach": "César Pasillas"}, "vol-b": {"n": "Voleibol B", "short": "Vol. B", "disc": "Voleibol", "dias": "Mar/Jue", "color": "#10B981", "ico": "\ud83c\udfd0", "coach": "César Pasillas"}};
-var SD=[{id:'PSTA001',name:'Adrián Domínguez Bustos',gid:'bas-b',status:'adeudo',mayo:0,pin:'14-59-00',padre:'Rocío Bustos',vc:''},
-{id:'PSTA003',name:'Alan Josué Rodríguez Rodríguez',gid:'bas-varonil-a',status:'activo',mayo:1000,pin:'35-96-59',padre:'Paulina Rodríguez Aguirre',vc:''},
-{id:'PSTA119',name:'Alondra Paulette Pineda Buenrostro',gid:'vol-a',status:'activo',mayo:1,pin:'30-83-85',padre:'Karla Ivonne Buenrostro Manzano',vc:''},
-{id:'PSTA131',name:'Ana Lucía Valdés Moreno',gid:'vol-a',status:'activo',mayo:1,pin:'12-65-22',padre:'Lucia Ibeth Moreno Mercado',vc:''},
-{id:'PSTA140',name:'Ana Paula Fernández Estrada',gid:'vol-a',status:'graduacion',mayo:1000,pin:'49-47-64',padre:'Mariana Estrada',vc:''},
-{id:'PSTA180',name:'Ana Sofía Rizo Aguilar',gid:'vol-b',status:'activo',mayo:1000,pin:'95-73-05',padre:'Alejandra Aguilar',vc:''},
-{id:'PSTA188',name:'Andrea Contreras Ibarra',gid:'vol-a',status:'activo',mayo:1000,pin:'78-24-97',padre:'Ana Félix Ibarra',vc:''},
-{id:'PSTA011',name:'Andrea García López',gid:'vol-b',status:'activo',mayo:900,pin:'23-36-43',padre:'Erika López Soto',vc:''},
-{id:'PSTA226',name:'Andrea Jacqueline Benavides Murillo',gid:'bas-femenil-a',status:'activo',mayo:900,pin:'63-76-04',padre:'Selene Murillo',vc:''},
-{id:'PSTA212',name:'Andrea Olivares Torices',gid:'vol-b',status:'activo',mayo:1000,pin:'30-21-11',padre:'Anelizza Torices',vc:''},
-{id:'PSTA013',name:'Andree Sánchez Minjarrez',gid:'bas-b',status:'adeudo',mayo:0,pin:'5574',padre:'Dina Vathzy',vc:''},
-{id:'PSTA214',name:'Angela Arellano Mariscal',gid:'vol-b',status:'activo',mayo:900,pin:'8244',padre:'Mairlén Mariscal',vc:''},
-{id:'PSTA136',name:'Azul Ivonne Nuñez Chávez',gid:'vol-b',status:'graduacion',mayo:1000,pin:'5697',padre:'Ivonne Chávez',vc:''},
-{id:'PSTA176',name:'Carlos Eduardo Altamirano Emicente',gid:'bas-varonil-a',status:'graduacion',mayo:1000,pin:'7828',padre:'Liliana Emicente',vc:''},
-{id:'PSTA236',name:'César Uriel Pasillas Zaragoza',gid:'bas-b',status:'activo',mayo:450,pin:'8027',padre:'Alicia Guadalupe Zaragoza Franco',vc:''},
-{id:'PSTA165',name:'Damian Abdiel Sánchez Ibarra',gid:'bas-b',status:'adeudo',mayo:0,pin:'4705',padre:'Ana Patricia Ibarra Lomelí',vc:''},
-{id:'PSTA228',name:'Dante Hernández Ramírez',gid:'bas-b',status:'activo',mayo:900,pin:'41-41-41',padre:'Ana Ramírez Ortega',vc:''},
-{id:'PSTA229',name:'Demetria Hernández Ramírez',gid:'bas-b',status:'activo',mayo:900,pin:'6840',padre:'Marco Hernández Díaz',vc:''},
-{id:'PSTA183',name:'Elian Villarruel Velazquez',gid:'bas-b',status:'activo',mayo:1000,pin:'39-26-26',padre:'Alethia Velázquez',vc:''},
-{id:'PSTA027',name:'Emilio Alberto Rodriguez Coronado',gid:'bas-varonil-a',status:'activo',mayo:1000,pin:'77-53-10',padre:'Janette Coronado Martinez',vc:''},
-{id:'PSTA028',name:'Emma Islas Tostado',gid:'vol-a',status:'activo',mayo:1000,pin:'26-00-74',padre:'Rafael Islas',vc:''},
-{id:'PSTA186',name:'Estefanía Rosas Collazo',gid:'vol-a',status:'activo',mayo:1000,pin:'38-43-77',padre:'Roxana Collazo',vc:''},
-{id:'PSTA133',name:'Fátima Castañeda Flores',gid:'vol-a',status:'activo',mayo:1000,pin:'6148',padre:'Sofía Paulina Flores González',vc:''},
-{id:'PSTA030',name:'Fernanda Gutiérrez Torres',gid:'bas-b',status:'activo',mayo:1000,pin:'9438',padre:'Miriam Torres',vc:''},
-{id:'PSTA213',name:'Fernanda Olivares Torices',gid:'vol-b',status:'activo',mayo:1000,pin:'30-21-11',padre:'Anelizza Torices',vc:''},
-{id:'PSTA221',name:'Florencia Miroslava González Perales',gid:'vol-a',status:'graduacion',mayo:1000,pin:'17-28-08',padre:'Maria Gabriela Perales Villalobos',vc:''},
-{id:'PSTA185',name:'Gael Aquino Sánchez',gid:'bas-b',status:'activo',mayo:900,pin:'31-04-86',padre:'Cecilia Sánchez Jácome',vc:''},
-{id:'PSTA219',name:'Gael Olveda Hurtado',gid:'tochito-a',status:'activo',mayo:900,pin:'59-20-52',padre:'Karina María Elena Hurtado',vc:''},
-{id:'PSTA211',name:'Ian Arturo Loza Herrera',gid:'bas-varonil-a',status:'activo',mayo:1000,pin:'35-42-23',padre:'Martha Herrera Coronado',vc:''},
-{id:'PSTA187',name:'Ian Chen Lara Pan',gid:'bas-varonil-a',status:'activo',mayo:1,pin:'49-91-65',padre:'Lifang Pan',vc:''},
-{id:'PSTA156a',name:'Iker Tiscareño Romero',gid:'bas-b',status:'activo',mayo:900,pin:'6217',padre:'Fabiola Teresa Romero',vc:''},
-{id:'PSTA134',name:'Inés Schmidt Rodríguez',gid:'vol-b',status:'activo',mayo:720,pin:'19-89-98',padre:'Erandi Rodríguez',vc:''},
-{id:'PSTA209',name:'Isaac Jacome Solorzano',gid:'bas-b',status:'activo',mayo:1000,pin:'20-73-27',padre:'ILZETH SOLORZANO',vc:''},
-{id:'PSTA144',name:'Isabella Santana Tirado',gid:'vol-a',status:'activo',mayo:1000,pin:'2758',padre:'Gabriela Ivonne Tirado González',vc:''},
-{id:'PSTA230',name:'Itsani Miranda Cruz Hernández',gid:'bas-b',status:'activo',mayo:1000,pin:'38-09-46',padre:'Ariatne Adriana Hernández López',vc:''},
-{id:'PSTA232',name:'Ivanna Alcalá Flores',gid:'tochito-a',status:'activo',mayo:900,pin:'19-85-44',padre:'Ivonne Flores Ríos',vc:''},
-{id:'PSTA135',name:'Ivanna Castañeda Flores',gid:'vol-a',status:'activo',mayo:1000,pin:'8051',padre:'Sofía Paulina Flores González',vc:''},
-{id:'PSTA036',name:'Ivanna Gonzalez Rios',gid:'vol-b',status:'activo',mayo:1000,pin:'60-20-23',padre:'Fabiola Ríos Hernández',vc:''},
-{id:'PSTA220',name:'Ivanna Isabella Gutiérrez Camarena',gid:'vol-b',status:'activo',mayo:900,pin:'47-33-94',padre:'Carmen Camarena Gómez',vc:''},
-{id:'PSTA037',name:'Ivanna Martínez Gutiérrez',gid:'bas-femenil-a',status:'graduacion',mayo:1000,pin:'95-82-68',padre:'Roxana Gutiérrez Huizar',vc:''},
-{id:'PSTA231',name:'Ivanna Sánchez Reyes',gid:'tochito-a',status:'activo',mayo:1000,pin:'60-28-04',padre:'Patricia Reyes Zúñiga',vc:''},
-{id:'PSTA235',name:'Ivanna Zoe Molina Toscano',gid:'bas-femenil-a',status:'activo',mayo:900,pin:'91-96-26',padre:'Pamela Lizeth Toscano Carrillo',vc:''},
-{id:'PSTA152',name:'Jana Sofía Campos Vargas',gid:'bas-femenil-a',status:'graduacion',mayo:1000,pin:'9515',padre:'Berenice Vargas Rosas',vc:''},
-{id:'PSTA155',name:'Jon Blanco Elourdy',gid:'tochito-a',status:'activo',mayo:900,pin:'1384',padre:'Itziar Elourdy Suárez',vc:''},
-{id:'PSTA-JL',name:'José Luis Vazquez Medina',gid:'bas-varonil-a',status:'graduacion',mayo:900,pin:'9661',padre:'Guadalupe Medina Reyes',vc:''},
-{id:'PSTA181',name:'Juan Gustavo Alvarez Batista',gid:'bas-b',status:'activo',mayo:1000,pin:'6396',padre:'Uki Batista',vc:''},
-{id:'PSTA138',name:'Juan Pablo Schmidt Rodríguez',gid:'vol-b',status:'activo',mayo:720,pin:'19-89-98',padre:'Erandi Rodríguez',vc:''},
-{id:'PSTA046',name:'Julieta González Gómez',gid:'vol-a',status:'activo',mayo:1000,pin:'3510',padre:'María del Carmen Gómez Gtz',vc:''},
-{id:'PSTA147',name:'Julieta Rubio Sánchez',gid:'vol-b',status:'activo',mayo:1000,pin:'59-76-80',padre:'Berenice Sánchez',vc:''},
-{id:'PSTA127',name:'Kaleb Aquino Sánchez',gid:'bas-b',status:'activo',mayo:900,pin:'31-04-86',padre:'Cecilia Sánchez Jácome',vc:''},
-{id:'PSTA184',name:'Leonardo Coutiño Aguilar',gid:'bas-varonil-a',status:'activo',mayo:1000,pin:'84-56-27',padre:'Brenda Aguilar',vc:''},
-{id:'PSTA171',name:'Leonardo Mateo Borrayo Anzaldo',gid:'bas-b',status:'activo',mayo:1,pin:'79-50-46',padre:'Alma Anzaldo',vc:''},
-{id:'PSTA148',name:'Luciana Estrada Inzunza',gid:'tochito-a',status:'activo',mayo:1000,pin:'6955',padre:'Elayne Inzunza',vc:''},
-{id:'PSTA139',name:'Luciano Ademar Meyer Ruelas',gid:'bas-varonil-a',status:'graduacion',mayo:1000,pin:'4074',padre:'Itza Ruelas Ortegón',vc:''},
-{id:'PSTA182',name:'Lucio Hang Lara Pan',gid:'bas-varonil-a',status:'graduacion',mayo:1,pin:'49-91-65',padre:'Lifang Pan',vc:''},
-{id:'PSTA052',name:'Luis Daniel Márquez Alvarez',gid:'tochito-a',status:'activo',mayo:1000,pin:'71-34-82',padre:'Anna Alvarez',vc:''},
-{id:'PSTA204',name:'Lyah Victoria Acosta Luque',gid:'vol-b',status:'activo',mayo:1000,pin:'4675',padre:'Marlen Luque Angulo',vc:''},
-{id:'PSTA126',name:'Maitena Wertz Bush',gid:'vol-b',status:'graduacion',mayo:1,pin:'42-02-56',padre:'Liliana Bush',vc:''},
-{id:'PSTA160',name:'Marcelo Toscano Abaroa',gid:'bas-b',status:'activo',mayo:1000,pin:'39-31-98',padre:'Patricia Abaroa',vc:''},
-{id:'PSTA205',name:'María José Muñiz Corona',gid:'vol-b',status:'activo',mayo:1000,pin:'17-73-40',padre:'María Elena Corona Mendoza',vc:''},
-{id:'PSTA057',name:'María Karol Reyna Ramírez',gid:'vol-a',status:'graduacion',mayo:1000,pin:'18-36-20',padre:'Miriam Ramírez',vc:''},
-{id:'PSTA146',name:'Mariana Contreras Ibarra',gid:'vol-a',status:'graduacion',mayo:1000,pin:'78-24-97',padre:'Ana Félix Ibarra',vc:''},
-{id:'PSTA059',name:'Mariana López Hallal',gid:'vol-a',status:'graduacion',mayo:1000,pin:'3354',padre:'Karem Hallal',vc:''},
-{id:'PSTA223',name:'Mateo Palomares Enriquez',gid:'bas-varonil-a',status:'activo',mayo:1000,pin:'85-80-03',padre:'Juan Carlos Palomares',vc:''},
-{id:'PSTA177',name:'Matías Altamirano Emicente',gid:'bas-b',status:'activo',mayo:1000,pin:'9331',padre:'Carlos Altamirano',vc:''},
-{id:'PSTA129',name:'Máximo Gerardo Valenzuela Varela',gid:'bas-varonil-a',status:'activo',mayo:1000,pin:'13-83-92',padre:'Gerardo Valenzuela / Claudia Varela',vc:''},
-{id:'PSTA066',name:'Mía Montserrat Mendoza Mena',gid:'vol-a',status:'graduacion',mayo:1000,pin:'6765',padre:'Berenice Mena',vc:''},
-{id:'PSTA210',name:'Mía Sofía López Placencia',gid:'bas-femenil-a',status:'activo',mayo:900,pin:'10-40-09',padre:'Mayra Placencia',vc:''},
-{id:'PSTA218',name:'Mía Victoria Almada Ortega',gid:'vol-b',status:'graduacion',mayo:0,pin:'89-88-56',padre:'María Guadalupe Ortega',vc:''},
-{id:'PSTA067',name:'Miranda Mercado Juárez',gid:'vol-a',status:'graduacion',mayo:1,pin:'76-53-17',padre:'Macrina Juárez Duarte',vc:''},
-{id:'PSTA208',name:'Natalia Jireh Cruz Rubio',gid:'vol-b',status:'adeudo',mayo:0,pin:'78-52-09',padre:'Lucy Rubio',vc:''},
-{id:'PSTA170',name:'Nicolás Rodríguez Uribe',gid:'bas-varonil-a',status:'activo',mayo:900,pin:'93-80-97',padre:'Vicente Rodríguez',vc:''},
-{id:'PSTA215',name:'Nicole Andrea Vasquez García',gid:'vol-b',status:'activo',mayo:1000,pin:'36-48-16',padre:'Carmen Rosa García Rodríguez',vc:''},
-{id:'PSTA189',name:'Nina Gaytán de la Rosa',gid:'vol-a',status:'activo',mayo:900,pin:'83-29-78',padre:'Veronica de la Rosa',vc:''},
-{id:'PSTA233',name:'Odalys Giselle Sánchez Hernández',gid:'bas-femenil-a',status:'activo',mayo:900,pin:'34-25-67',padre:'Mayra Cristina Hernández Puentes',vc:''},
-{id:'PSTA141',name:'Paola Fernanda Vázquez Gasca',gid:'bas-femenil-a',status:'activo',mayo:1000,pin:'3608',padre:'Miriam Gasca',vc:''},
-{id:'PSTA073',name:'Paola Zoé Arreola Viayra',gid:'vol-b',status:'activo',mayo:1000,pin:'90-76-04',padre:'Brenda Berenice Viayra',vc:''},
-{id:'PSTA161',name:'Patricio Toscano Abaroa',gid:'bas-b',status:'activo',mayo:1000,pin:'39-31-98',padre:'Patricia Abaroa',vc:''},
-{id:'PSTA074',name:'Paula Scarlett Rivas Guardado',gid:'vol-a',status:'graduacion',mayo:1000,pin:'69-88-92',padre:'Nancy Guardado',vc:''},
-{id:'PSTA237',name:'Regina Isabela Sánchez Alvarado',gid:'bas-femenil-a',status:'activo',mayo:900,pin:'10-62-91',padre:'Sonia Ivett Alvarado Morales',vc:''},
-{id:'PSTA078',name:'Regina Nicole Figueroa Contreras',gid:'vol-a',status:'graduacion',mayo:1000,pin:'60-05-67',padre:'Raúl Aziel Figueroa / Sandra Contreras',vc:''},
-{id:'PSTA222',name:'Rodrigo Eslava Malpica',gid:'bas-varonil-a',status:'activo',mayo:900,pin:'12-38-49',padre:'Marcela Malpica',vc:''},
-{id:'PSTA166',name:'Rodrigo Murúa Flores',gid:'bas-b',status:'activo',mayo:1000,pin:'96-02-96',padre:'Cinthia Flores',vc:''},
-{id:'PSTA227',name:'Rogelio López Robles',gid:'bas-varonil-a',status:'activo',mayo:900,pin:'60-02-52',padre:'Laura Mayela Robles Rodriguez',vc:''},
-{id:'PSTA172',name:'Romina Danae Rosales Villegas',gid:'bas-b',status:'activo',mayo:1000,pin:'46-15-90',padre:'María Villegas (Cony)',vc:''},
-{id:'PSTA082',name:'Romina González Rios',gid:'vol-a',status:'activo',mayo:1000,pin:'60-20-23',padre:'Fabiola Ríos Hernández',vc:''},
-{id:'PSTA156b',name:'Santiago Acero Cupa',gid:'bas-b',status:'adeudo',mayo:0,pin:'3574',padre:'Fabiola Cupa Gutiérrez',vc:''},
-{id:'PSTA179a',name:'Santiago Rojas Rubio (Bas)',gid:'bas-b',status:'activo',mayo:1000,pin:'2896',padre:'Karen Rubio Espinosa',vc:''},
-{id:'PSTA153',name:'Sara Valeria Campos Vargas',gid:'tochito-a',status:'activo',mayo:1000,pin:'1998',padre:'Miguel Campos / Berenice Vargas',vc:''},
-{id:'PSTA206',name:'Saulo Marrón Gómez',gid:'tochito-a',status:'activo',mayo:1000,pin:'46-27-34',padre:'Karina Gómez',vc:''},
-{id:'PSTA091',name:'Sebastián Domínguez Bustos',gid:'bas-b',status:'adeudo',mayo:0,pin:'14-59-00',padre:'Rocío Bustos',vc:''},
-{id:'PSTA092',name:'Sebastián Gutiérrez Torres',gid:'bas-varonil-a',status:'graduacion',mayo:1000,pin:'1749',padre:'Miriam Torres',vc:''},
-{id:'PSTA143',name:'Sofía Carolina González Lerma',gid:'vol-b',status:'activo',mayo:1000,pin:'80-71-12',padre:'Carolina Lerma Lizárraga',vc:''},
-{id:'PSTA149',name:'Sofía Fernanda López Valadez',gid:'vol-b',status:'activo',mayo:1000,pin:'59-85-37',padre:'Alba Elena Valadez Cervantes',vc:''},
-{id:'PSTA130',name:'Sofia Fletes Topete',gid:'vol-a',status:'graduacion',mayo:1000,pin:'78-30-65',padre:'Claudia Topete',vc:''},
-{id:'PSTA157',name:'Sofía Siré Arreola Viayra',gid:'vol-a',status:'activo',mayo:1000,pin:'11-26-69',padre:'Jaime Alfonso Arreola Scull',vc:''},
-{id:'PSTA194',name:'Tadeo García Arellano',gid:'bas-b',status:'activo',mayo:900,pin:'17-87-95',padre:'Carmen Berenice Arellano',vc:''},
-{id:'PSTA106',name:'Valentina Saldaña Asomoza',gid:'vol-a',status:'activo',mayo:720,pin:'7412',padre:'Berenice Asomoza',vc:''},
-{id:'PSTA112',name:'Victoria Barajas Godinez',gid:'vol-a',status:'activo',mayo:1,pin:'1053',padre:'Vicky Alejandra Godínez',vc:''},
-{id:'PSTA203',name:'Ximena Montserrat Lizarraga Lozoya',gid:'vol-a',status:'graduacion',mayo:1000,pin:'58-14-15',padre:'Araceli Lozoya',vc:''},
-{id:'PSTA132',name:'Ana Paola Schmidt Rodríguez',gid:'tochito-b',status:'activo',mayo:720,pin:'19-89-98',padre:'Erandi Rodríguez',vc:''},
-{id:'PSTA195',name:'Ana Paola López Mendoza',gid:'tochito-b',status:'activo',mayo:900,pin:'89-35-17',padre:'Paola Mendoza Aguayo',vc:''},
-{id:'PSTA192',name:'Ana Paula Rojas Mayorquín',gid:'tochito-b',status:'graduacion',mayo:900,pin:'17-87-95',padre:'Kenia Mayorquin',vc:''},
-{id:'PSTA224',name:'Areli Venerada Lomelí Iniestra',gid:'tochito-b',status:'activo',mayo:1000,pin:'55-10-54',padre:'Valery Iniestra',vc:''},
-{id:'PSTA194b',name:'Bruno Rojas Mayorquín',gid:'tochito-b',status:'activo',mayo:900,pin:'4995',padre:'Kenia Mayorquin',vc:''},
-{id:'PSTA200',name:'Camila Íñiguez López',gid:'tochito-b',status:'graduacion',mayo:1000,pin:'51-11-15',padre:'Yudith López',vc:''},
-{id:'PSTA174',name:'Constanza Ibarra Bañuelos',gid:'tochito-b',status:'graduacion',mayo:1000,pin:'1771',padre:'Alexandra Bañuelos',vc:''},
-{id:'PSTA162',name:'Daniela Estefanía Huerta Barba',gid:'tochito-b',status:'activo',mayo:1000,pin:'25-73-97',padre:'Oscar Huerta',vc:''},
-{id:'PSTA159',name:'Estefanía Acero Cupa',gid:'tochito-b',status:'graduacion',mayo:0,pin:'66-02-54',padre:'Fabiola Cupa Gutiérrez',vc:''},
-{id:'PSTA225',name:'Ester Santiago Fong',gid:'tochito-b',status:'activo',mayo:1000,pin:'85-31-88',padre:'Miriam Fong Arango',vc:''},
-{id:'PSTA175',name:'Isabella Serna Jiménez',gid:'tochito-b',status:'activo',mayo:1000,pin:'5256',padre:'Brenda Jiménez',vc:''},
-{id:'PSTA178',name:'Ivanna Paola Juárez Carranza',gid:'tochito-b',status:'graduacion',mayo:0,pin:'3687',padre:'Paola Carranza',vc:''},
-{id:'PSTA137',name:'Juan Fernando Schmidt Rodríguez',gid:'tochito-b',status:'activo',mayo:720,pin:'19-89-98',padre:'Erandi Rodríguez',vc:''},
-{id:'PSTA207',name:'Maite Villarruel Velazquez',gid:'tochito-b',status:'activo',mayo:1000,pin:'39-26-26',padre:'Alethia Velázquez',vc:''},
-{id:'PSTA201',name:'Marcela Elizabeth Galicia Pérez',gid:'tochito-b',status:'activo',mayo:1000,pin:'13-40-06',padre:'Lucía Elizabeth Pérez',vc:''},
-{id:'PSTA142',name:'Santiago Schmidt Rodríguez',gid:'tochito-b',status:'activo',mayo:720,pin:'19-89-98',padre:'Erandi Rodríguez',vc:''},
-{id:'PSTA198',name:'Sara Itzel Cazares Tapia',gid:'tochito-b',status:'activo',mayo:1000,pin:'38-34-07',padre:'Paulina Tapia López',vc:''},
-{id:'PSTA199',name:'Valentina Íñiguez López',gid:'tochito-b',status:'graduacion',mayo:1000,pin:'51-11-15',padre:'Yudith López',vc:''},
-{id:'PSTA202',name:'Varenka Carvente Plata',gid:'tochito-b',status:'activo',mayo:1000,pin:'19-98-33',padre:'Raúl Carvente',vc:''},
-{id:'PSTA216',name:'Sergio Ismael Alvarado Chávez',gid:'tochito-b',status:'activo',mayo:1000,pin:'48-39-41',padre:'Vanessa Berenice',vc:''},
-{id:'PSTA-SC',name:'Sofia Canela Madrigal',gid:'tochito-b',status:'activo',mayo:900,pin:'3078',padre:'César Canela',vc:''}];
-
-var ACCOUNTS = [
-  {id:"a1",role:"admin", name:"Admin Club Borregos",  email:"admin@borregos.mx",  pwd:"borregos2026",color:"#0A2240",tag:"Administrador · Linkid"},
-  {id:"c1",role:"coach", name:"Michel Silva",    email:"michel.silva44@tec.mx",  pwd:"michel2026",  color:"#1D4ED8",tag:"Coach · Basquetbol A + B",gids:["bas-varonil-a","bas-femenil-a","bas-b"]},
-  {id:"c2",role:"coach", name:"César Pasillas",  email:"cesar.pasillas@tec.mx",  pwd:"cesar2026",   color:"#059669",tag:"Coach · Voleibol A + B",gids:["vol-a","vol-b"]},
-  {id:"c3",role:"coach", name:"Carmen León",     email:"_leon.carmen@tec.mx",    pwd:"carmen2026",  color:"#D97706",tag:"Coach · Tochito A + B",gids:["tochito-a","tochito-b"]},
-  {id:"p1",role:"parent",name:"María González",         email:"padre@borregos.mx",  pwd:"padre2026",   color:"#1A4578",tag:"Padre · 2 hijos vinculados",sids:["PSTA001","PSTA003"]},
-  {id:"p2",role:"parent",name:"Carlos Torres",          email:"padre2@borregos.mx", pwd:"padre2026",   color:"#7C3AED",tag:"Padre · 2 hijos vinculados",sids:["PSTA119","PSTA131"]},
+var SD=[
+{id:'PSTA001',name:'Adrián Domínguez Bustos',gid:'bas-b',status:'adeudo',edad:'10',mayo:0,pin:'98-09-74',padre:'Rocío Bustos',vc:'BRG56YY',dob:'01062015'},
+{id:'PSTA003',name:'Alan Josué Rodríguez Rodríguez',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:1000,pin:'84-35-36',padre:'Paulina Rodríguez Aguirre',vc:'BRG81TG',dob:'15102013'},
+{id:'PSTA119',name:'Alondra Paulette Pineda Buenrostro',gid:'vol-a',status:'activo',edad:'13',mayo:1,pin:'86-55-07',padre:'Karla Ivonne Buenrostro Manzano',vc:'BRG63TA',dob:'03042013'},
+{id:'PSTA131',name:'Ana Lucía Valdés Moreno',gid:'vol-a',status:'activo',edad:'12',mayo:1,pin:'',padre:'Lucia Ibeth Moreno Mercado',vc:'BRG82UA',dob:'17062013'},
+{id:'PSTA195',name:'Ana Paola López Mendoza',gid:'tochito-b',status:'adeudo',edad:'13',mayo:900,pin:'80-83-57',padre:'Paola Mendoza Aguayo',vc:'BRG44EZ',dob:'27072012'},
+{id:'PSTA132',name:'Ana Paola Schmidt Rodríguez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:720,pin:'91-09-33',padre:'Erandi Rodríguez',vc:'BRG59HL',dob:'19062012'},
+{id:'PSTA140',name:'Ana Paula Fernández Estrada',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'16-07-89',padre:'Mariana Estrada',vc:'BRG58NX',dob:'04052012'},
+{id:'PSTA192',name:'Ana Paula Rojas Mayorquín',gid:'tochito-b',status:'adeudo',edad:'14',mayo:900,pin:'13-81-68',padre:'Kenia Mayorquin',vc:'BRG48JF',dob:'28012012'},
+{id:'PSTA180',name:'Ana Sofía Rizo Aguilar',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'99-82-36',padre:'Alejandra Aguilar',vc:'BRG19RQ',dob:'22052013'},
+{id:'PSTA188',name:'Andrea Contreras Ibarra',gid:'vol-a',status:'adeudo',edad:'11',mayo:1000,pin:'35-21-44',padre:'Ana Félix Ibarra',vc:'BRG17PT',dob:'06052015'},
+{id:'PSTA011',name:'Andrea García López',gid:'vol-b',status:'adeudo',edad:'13',mayo:900,pin:'56-69-53',padre:'Erika López Soto',vc:'BRG49DD',dob:'12102012'},
+{id:'PSTA226',name:'Andrea Jacqueline Benavides Murillo',gid:'bas-femenil-a',status:'adeudo',edad:'12',mayo:900,pin:'77-61-68',padre:'Fátima Selene Murillo',vc:'BRG74LN',dob:'29052013'},
+{id:'PSTA212',name:'Andrea Olivares Torices',gid:'vol-b',status:'adeudo',edad:'10',mayo:1000,pin:'79-59-84',padre:'Anelizza Torices',vc:'BRG78CJ',dob:'25052015'},
+{id:'PSTA013',name:'Andree Sánchez Minjarrez',gid:'bas-b',status:'adeudo',edad:'10',mayo:0,pin:'46-81-10',padre:'Dina vathzy',vc:'BRG83BA',dob:'22082015'},
+{id:'PSTA214',name:'Angela Arellano Mariscal',gid:'vol-b',status:'adeudo',edad:'13',mayo:900,pin:'39-01-07',padre:'Mairlén Mariscal',vc:'BRG56LU',dob:'20032013'},
+{id:'PSTA224',name:'Areli Venerada Lomelí Iniestra',gid:'tochito-b',status:'adeudo',edad:'12',mayo:1000,pin:'96-50-04',padre:'Valery Iniestra',vc:'BRG17PJ',dob:'01112013'},
+{id:'PSTA136',name:'Azul Ivonne Nuñez Chávez',gid:'vol-b',status:'adeudo',edad:'14',mayo:1000,pin:'34-38-08',padre:'Ivonne Chávez',vc:'BRG90QZ',dob:'09062011'},
+{id:'PSTA194',name:'Bruno Rojas Mayorquín',gid:'tochito-b',status:'adeudo',edad:'11',mayo:900,pin:'95-52-97',padre:'Kenia Mayorquin',vc:'BRG85RS',dob:'29122014'},
+{id:'PSTA200',name:'Camila Íñiguez López',gid:'tochito-b',status:'adeudo',edad:'14',mayo:1000,pin:'95-99-17',padre:'Yudith López',vc:'BRG77HV',dob:'14122011'},
+{id:'PSTA176',name:'Carlos Eduardo Altamirano Emicente',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:1000,pin:'62-34-02',padre:'Liliana Emicente',vc:'BRG66QS',dob:'10082011'},
+{id:'PSTA236',name:'César Uriel Pasillas Zaragoza',gid:'bas-b',status:'adeudo',edad:'10',mayo:450,pin:'58-37-71',padre:'Alicia Guadalupe Zaragoza Franco',vc:'BRG56EV',dob:'21032016'},
+{id:'PSTA174',name:'Constanza Ibarra Bañuelos',gid:'tochito-b',status:'adeudo',edad:'14',mayo:1000,pin:'83-78-67',padre:'Alexandra Bañuelos',vc:'BRG93MU',dob:'24102011'},
+{id:'PSTA165',name:'Damian Abdiel Sánchez Ibarra',gid:'bas-b',status:'adeudo',edad:'10',mayo:0,pin:'52-68-96',padre:'Ana Patricia Ibarra Lomelí',vc:'BRG77PN',dob:'30112015'},
+{id:'PSTA162',name:'Daniela Estefanía Huerta Barba',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'21-68-09',padre:'Oscar Huerta',vc:'BRG49XG',dob:'26122012'},
+{id:'PSTA228',name:'Dante Hernández Ramírez',gid:'bas-b',status:'adeudo',edad:'11',mayo:900,pin:'26-94-22',padre:'Ana Ramírez Ortega',vc:'BRG47HT',dob:'06012015'},
+{id:'PSTA229',name:'Demetria Hernández Ramírez',gid:'bas-b',status:'adeudo',edad:'8',mayo:900,pin:'69-26-90',padre:'Marco Hernández Díaz',vc:'BRG53VS',dob:'23102017'},
+{id:'PSTA183',name:'Elian Villarruel Velazquez',gid:'bas-b',status:'adeudo',edad:'8',mayo:1000,pin:'18-38-75',padre:'Alethia Velázquez',vc:'BRG60WJ',dob:'08022018'},
+{id:'PSTA027',name:'Emilio Alberto Rodriguez Coronado',gid:'bas-varonil-a',status:'adeudo',edad:'13',mayo:1000,pin:'98-83-09',padre:'Janette Coronado Martinez',vc:'BRG44EQ',dob:'13052013'},
+{id:'PSTA028',name:'Emma Islas Tostado',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'41-01-60',padre:'Rafael Islas',vc:'BRG22NR',dob:'03052013'},
+{id:'PSTA159',name:'Estefanía Acero Cupa',gid:'tochito-b',status:'adeudo',edad:'14',mayo:0,pin:'83-33-93',padre:'Fabiola Cupa Gutiérrez',vc:'BRG85KJ',dob:'23042012'},
+{id:'PSTA186',name:'Estefanía Rosas Collazo',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'76-29-65',padre:'Roxana Collazo',vc:'BRG16GR',dob:'30062012'},
+{id:'PSTA225',name:'Ester Santiago Fong',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'61-13-51',padre:'Miriam Fong Arango',vc:'BRG14EG',dob:'03032013'},
+{id:'PSTA133',name:'Fátima Castañeda Flores',gid:'vol-a',status:'adeudo',edad:'10',mayo:1000,pin:'61-97-53',padre:'Sofía Paulina Flores González',vc:'BRG88NQ',dob:'12102015'},
+{id:'PSTA030',name:'Fernanda Gutiérrez Torres',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'65-51-81',padre:'Miriam Torres',vc:'BRG29HT',dob:'02022015'},
+{id:'PSTA213',name:'Fernanda Olivares Torices',gid:'vol-b',status:'adeudo',edad:'10',mayo:1000,pin:'89-10-98',padre:'Anelizza Torices',vc:'BRG29PH',dob:'25052015'},
+{id:'PSTA221',name:'Florencia Miroslava González Perales',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'80-48-24',padre:'Maria Gabriela Perales Villalobos',vc:'BRG65BU',dob:'25042011'},
+{id:'PSTA185',name:'Gael Aquino Sánchez',gid:'bas-b',status:'adeudo',edad:'9',mayo:900,pin:'80-36-00',padre:'Cecilia Sánchez Jácome',vc:'BRG90JR',dob:'17102016'},
+{id:'PSTA219',name:'Gael Olveda Hurtado',gid:'tochito-a',status:'adeudo',edad:'10',mayo:900,pin:'51-21-79',padre:'Karina María Elena Hurtado',vc:'BRG72JX',dob:'02102015'},
+{id:'PSTA211',name:'Ian Arturo Loza Herrera',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:1000,pin:'28-15-41',padre:'Martha Herrera Coronado',vc:'BRG97KP',dob:'09072013'},
+{id:'PSTA187',name:'Ian Chen Lara Pan',gid:'bas-varonil-a',status:'activo',edad:'11',mayo:1,pin:'27-01-53',padre:'Lifang Pan',vc:'BRG99MB',dob:'31052014'},
+{id:'PSTA156',name:'Iker Tiscareño Romero',gid:'bas-b',status:'adeudo',edad:'13',mayo:900,pin:'96-49-46',padre:'Fabiola Teresa Romero',vc:'BRG26LB',dob:'05012013'},
+{id:'PSTA134',name:'Inés Schmidt Rodríguez',gid:'vol-b',status:'adeudo',edad:'12',mayo:720,pin:'62-89-40',padre:'Erandi Rodríguez',vc:'BRG89PC',dob:'10022014'},
+{id:'PSTA209',name:'Isaac Jacome Solorzano',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'83-58-76',padre:'Ilzeth Solorzano',vc:'BRG29VA',dob:'22112014'},
+{id:'PSTA144',name:'Isabella Santana Tirado',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'20-25-59',padre:'Gabriela Ivonne Tirado González',vc:'BRG41BF',dob:'10082012'},
+{id:'PSTA175',name:'Isabella Serna Jiménez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'42-62-84',padre:'Brenda Jiménez',vc:'BRG28UX',dob:'13122012'},
+{id:'PSTA230',name:'Itsani Miranda Cruz Hernández',gid:'bas-b',status:'adeudo',edad:'10',mayo:1000,pin:'89-57-74',padre:'Ariatne Adriana Hernández López',vc:'BRG44YT',dob:'14102015'},
+{id:'PSTA232',name:'Ivanna Alcalá Flores',gid:'tochito-a',status:'adeudo',edad:'10',mayo:900,pin:'61-46-50',padre:'Ivonne Flores Ríos',vc:'BRG72WS',dob:'23022016'},
+{id:'PSTA135',name:'Ivanna Castañeda Flores',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'29-73-55',padre:'Sofía Paulina Flores González',vc:'BRG13RE',dob:'29042013'},
+{id:'PSTA036',name:'Ivanna Gonzalez Rios',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'62-74-20',padre:'Fabiola Ríos Hernández',vc:'BRG12WR',dob:'08102012'},
+{id:'PSTA220',name:'Ivanna Isabella Gutiérrez Camarena',gid:'vol-b',status:'adeudo',edad:'12',mayo:900,pin:'12-07-82',padre:'Carmen Camarena Gómez',vc:'BRG75ZS',dob:'22082013'},
+{id:'PSTA037',name:'Ivanna Martínez Gutiérrez',gid:'bas-femenil-a',status:'adeudo',edad:'14',mayo:1000,pin:'76-81-29',padre:'Roxana Gutiérrez Huizar',vc:'BRG98LY',dob:'20012012'},
+{id:'PSTA178',name:'Ivanna Paola Juárez Carranza',gid:'tochito-b',status:'adeudo',edad:'14',mayo:0,pin:'93-88-16',padre:'Paola Carranza',vc:'BRG65HT',dob:'01042012'},
+{id:'PSTA231',name:'Ivanna Sánchez Reyes',gid:'tochito-a',status:'adeudo',edad:'10',mayo:1000,pin:'53-46-21',padre:'Patricia Reyes Zúñiga',vc:'BRG57MD',dob:'02012016'},
+{id:'PSTA235',name:'Ivanna Zoe Molina Toscano',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:900,pin:'44-15-25',padre:'Pamela Lizeth Toscano Carrillo',vc:'BRG24WW',dob:'17042013'},
+{id:'PSTA152',name:'Jana Sofía Campos Vargas',gid:'bas-femenil-a',status:'adeudo',edad:'14',mayo:1000,pin:'24-60-68',padre:'Berenice Vargas Rosas',vc:'BRG87FA',dob:'05052012'},
+{id:'PSTA155',name:'Jon Blanco Elourdy',gid:'tochito-a',status:'adeudo',edad:'10',mayo:900,pin:'77-08-85',padre:'Itziar Elourdy Suárez',vc:'BRG29HZ',dob:'12012016'},
+{id:'PSTA238',name:'José Luis Vazquez Medina',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:900,pin:'62-93-87',padre:'Guadalupe Medina Reyes',vc:'BRG44EJ',dob:'27092011'},
+{id:'PSTA137',name:'Juan Fernando Schmidt Rodríguez',gid:'tochito-b',status:'adeudo',edad:'12',mayo:720,pin:'50-16-11',padre:'Erandi Rodríguez',vc:'BRG59VF',dob:'10022014'},
+{id:'PSTA181',name:'Juan Gustavo Alvarez Batista',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'73-13-16',padre:'Uki Batista',vc:'BRG31DN',dob:'11082014'},
+{id:'PSTA138',name:'Juan Pablo Schmidt Rodríguez',gid:'vol-b',status:'adeudo',edad:'13',mayo:720,pin:'95-52-40',padre:'Erandi Rodríguez',vc:'BRG99TK',dob:'19062012'},
+{id:'PSTA046',name:'Julieta González Gómez',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'82-84-57',padre:'María del Carmen Gómez Gtz',vc:'BRG64NE',dob:'08032013'},
+{id:'PSTA147',name:'Julieta Rubio Sánchez',gid:'vol-b',status:'adeudo',edad:'12',mayo:1000,pin:'28-33-29',padre:'Berenice Sánchez',vc:'BRG10UN',dob:'13062013'},
+{id:'PSTA127',name:'Kaleb Aquino Sánchez',gid:'bas-b',status:'adeudo',edad:'11',mayo:900,pin:'85-03-76',padre:'Cecilia Sánchez Jácome',vc:'BRG38YV',dob:'31052014'},
+{id:'PSTA184',name:'Leonardo Coutiño Aguilar',gid:'bas-varonil-a',status:'adeudo',edad:'10',mayo:1000,pin:'59-10-06',padre:'Brenda Aguilar',vc:'BRG30WR',dob:'06112015'},
+{id:'PSTA171',name:'Leonardo Mateo Borrayo Anzaldo',gid:'bas-b',status:'activo',edad:'11',mayo:1,pin:'95-82-70',padre:'Alma Anzaldo',vc:'BRG92LD',dob:'22032015'},
+{id:'PSTA148',name:'Luciana Estrada Inzunza',gid:'tochito-a',status:'adeudo',edad:'10',mayo:1000,pin:'66-81-38',padre:'Elayne Inzunza',vc:'BRG93TM',dob:'06112015'},
+{id:'PSTA139',name:'Luciano Ademar Meyer Ruelas',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:1000,pin:'67-49-04',padre:'Itza Ruelas Ortegón',vc:'BRG20EY',dob:'16082011'},
+{id:'PSTA182',name:'Lucio Hang Lara Pan',gid:'bas-varonil-a',status:'activo',edad:'14',mayo:1,pin:'15-74-38',padre:'Lifang Pan',vc:'BRG78CC',dob:'06082011'},
+{id:'PSTA052',name:'Luis Daniel Márquez Alvarez',gid:'tochito-a',status:'adeudo',edad:'8',mayo:1000,pin:'12-90-74',padre:'Anna Alvarez',vc:'BRG13RV',dob:'26102017'},
+{id:'PSTA204',name:'Lyah Victoria Acosta Luque',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'47-18-67',padre:'Marlen luque angulo',vc:'BRG28GT',dob:'01022013'},
+{id:'PSTA207',name:'Maite Villarruel Velazquez',gid:'tochito-b',status:'adeudo',edad:'11',mayo:1000,pin:'75-96-13',padre:'Alethia Velázquez',vc:'BRG39FB',dob:'14052015'},
+{id:'PSTA126',name:'Maitena Wertz Bush',gid:'vol-b',status:'activo',edad:'15',mayo:1,pin:'63-12-10',padre:'Liliana Bush',vc:'BRG47HT',dob:'05042011'},
+{id:'PSTA201',name:'Marcela Elizabeth Galicia Pérez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'30-26-99',padre:'Lucía Elizabeth Pérez',vc:'BRG31DG',dob:'03082012'},
+{id:'PSTA160',name:'Marcelo Toscano Abaroa',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'71-17-25',padre:'Patricia Abaroa',vc:'BRG15ZX',dob:'09012015'},
+{id:'PSTA205',name:'María José Muñiz Corona',gid:'vol-b',status:'adeudo',edad:'10',mayo:1000,pin:'35-99-56',padre:'María Elena Corona Mendoza',vc:'BRG38ES',dob:'04082015'},
+{id:'PSTA057',name:'María Karol Reyna Ramírez',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'72-33-79',padre:'Miriam Ramírez',vc:'BRG83BX',dob:'18052011'},
+{id:'PSTA146',name:'Mariana  Contreras Ibarra',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'35-50-50',padre:'Ana Félix Ibarra',vc:'BRG73KX',dob:'03062011'},
+{id:'PSTA059',name:'Mariana López Hallal',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'41-45-11',padre:'Karem Hallal',vc:'BRG19KA',dob:'25042011'},
+{id:'PSTA223',name:'Mateo Palomares Enriquez',gid:'bas-varonil-a',status:'adeudo',edad:'13',mayo:1000,pin:'48-03-75',padre:'Juan Carlos Palomares',vc:'BRG36QC',dob:'16052013'},
+{id:'PSTA177',name:'Matías Altamirano Emicente',gid:'bas-b',status:'adeudo',edad:'8',mayo:1000,pin:'90-21-67',padre:'Carlos Altamirano',vc:'BRG73KG',dob:'12102017'},
+{id:'PSTA129',name:'Máximo Gerardo Valenzuela Varela',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:1000,pin:'31-11-70',padre:'Gerardo Valenzuela/ Claudia varela',vc:'BRG50YX',dob:'12072013'},
+{id:'PSTA066',name:'Mía Montserrat Mendoza Mena',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'16-25-76',padre:'Berenice Mena',vc:'BRG35BH',dob:'05022011'},
+{id:'PSTA210',name:'Mía Sofía López Placencia',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:900,pin:'24-17-61',padre:'Mayra Placencia',vc:'BRG22NA',dob:'27032013'},
+{id:'PSTA218',name:'Mía Victoria Almada Ortega',gid:'vol-b',status:'adeudo',edad:'14',mayo:0,pin:'51-57-19',padre:'María Guadalupe Ortega',vc:'BRG67DD',dob:'01032012'},
+{id:'PSTA067',name:'Miranda Mercado Juárez',gid:'vol-a',status:'activo',edad:'15',mayo:1,pin:'41-82-01',padre:'Macrina Juárez Duarte',vc:'BRG76ND',dob:'29012011'},
+{id:'PSTA208',name:'Natalia Jireh Cruz Rubio',gid:'vol-b',status:'adeudo',edad:'13',mayo:0,pin:'44-84-73',padre:'Lucy Rubio',vc:'BRG63MB',dob:'18072012'},
+{id:'PSTA170',name:'Nicolás Rodríguez Uribe',gid:'bas-varonil-a',status:'adeudo',edad:'11',mayo:900,pin:'99-13-49',padre:'Vicente Rodríguez',vc:'BRG21ZV',dob:'01032015'},
+{id:'PSTA215',name:'Nicole Andrea Vasquez García',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'98-42-45',padre:'Carmen Rosa García Rodríguez',vc:'BRG84JF',dob:'05012013'},
+{id:'PSTA189',name:'Nina Gaytán de la Rosa',gid:'vol-a',status:'adeudo',edad:'13',mayo:900,pin:'18-78-57',padre:'Veronica de la Rosa',vc:'BRG54CV',dob:'10112012'},
+{id:'PSTA233',name:'Odalys Giselle Sánchez Hernández',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:900,pin:'16-07-36',padre:'Mayra Cristina Hernández Puentes',vc:'BRG40ND',dob:'07052013'},
+{id:'PSTA141',name:'Paola Fernanda Vázquez Gasca',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:1000,pin:'93-92-89',padre:'Miriam Gasca',vc:'BRG87MF',dob:'11102012'},
+{id:'PSTA073',name:'Paola Zoé Arreola Viayra',gid:'vol-b',status:'adeudo',edad:'12',mayo:1000,pin:'35-84-93',padre:'Brenda Berenice Viayra',vc:'BRG95PG',dob:'13042014'},
+{id:'PSTA161',name:'Patricio Toscano Abaroa',gid:'bas-b',status:'adeudo',edad:'7',mayo:1000,pin:'44-46-41',padre:'Patricia Abaroa',vc:'BRG86YR',dob:'17092018'},
+{id:'PSTA074',name:'Paula Scarlett Rivas Guardado',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'34-61-67',padre:'Nancy Guardado/Juan Rivas',vc:'BRG25KY',dob:'21072011'},
+{id:'PSTA237',name:'Regina Isabela Sánchez Alvarado',gid:'bas-femenil-a',status:'adeudo',edad:'126',mayo:900,pin:'63-51-44',padre:'Sonia Ivett Alvarado Morales',vc:'BRG82UK',dob:''},
+{id:'PSTA078',name:'Regina Nicole Figueroa Contreras',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'39-09-86',padre:'Raúl Aziel Figueroa de la Mora/Sandra Contreras',vc:'BRG74YL',dob:'08052011'},
+{id:'PSTA222',name:'Rodrigo Eslava Malpica',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:900,pin:'97-21-00',padre:'Marcela Malpica',vc:'BRG90WS',dob:'28072013'},
+{id:'PSTA166',name:'Rodrigo Murúa Flores',gid:'bas-b',status:'adeudo',edad:'9',mayo:1000,pin:'43-51-70',padre:'Cinthia Flores',vc:'BRG15ZG',dob:'05082016'},
+{id:'PSTA227',name:'Rogelio López Robles',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:900,pin:'53-84-65',padre:'Laura Mayela Robles Rodriguez',vc:'BRG31RL',dob:'29092013'},
+{id:'PSTA172',name:'Romina Danae Rosales Villegas',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'13-06-85',padre:'María Villegas (Cony)',vc:'BRG41BF',dob:'01032015'},
+{id:'PSTA082',name:'Romina González Rios',gid:'vol-a',status:'adeudo',edad:'11',mayo:1000,pin:'41-77-14',padre:'Fabiola Ríos Hernández',vc:'BRG81TG',dob:'01092014'},
+{id:'PSTA156',name:'Santiago Acero Cupa',gid:'bas-b',status:'adeudo',edad:'9',mayo:0,pin:'88-67-11',padre:'Fabiola Cupa Gutiérrez',vc:'BRG26LB',dob:'12072016'},
+{id:'PSTA179',name:'Santiago Rojas Rubio',gid:'bas-b',status:'adeudo',edad:'8',mayo:1000,pin:'75-88-96',padre:'Karen Rubio Espinosa',vc:'BRG66CX',dob:'21042018'},
+{id:'PSTA179',name:'Santiago Rojas Rubio',gid:'tochito-a',status:'adeudo',edad:'8',mayo:1000,pin:'75-88-96',padre:'Karen Rubio Espinosa',vc:'BRG66CX',dob:'21042018'},
+{id:'PSTA142',name:'Santiago Schmidt Rodríguez',gid:'tochito-b',status:'adeudo',edad:'12',mayo:720,pin:'22-63-21',padre:'Erandi Rodríguez',vc:'BRG12JJ',dob:'10022014'},
+{id:'PSTA198',name:'Sara Itzel Cazares Tapia',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'82-12-25',padre:'Paulina Tapia López',vc:'BRG88GU',dob:'04062012'},
+{id:'PSTA153',name:'Sara Valeria Campos Vargas',gid:'tochito-a',status:'adeudo',edad:'10',mayo:1000,pin:'26-29-32',padre:'Miguel Campos/Berenice Vargas',vc:'BRG98SD',dob:'06112015'},
+{id:'PSTA206',name:'Saulo Marrón Gómez',gid:'tochito-a',status:'adeudo',edad:'9',mayo:1000,pin:'84-91-73',padre:'Karina Guadalupe Gómez',vc:'BRG69ZG',dob:'07122016'},
+{id:'PSTA091',name:'Sebastián Domínguez Bustos',gid:'bas-b',status:'adeudo',edad:'9',mayo:0,pin:'86-20-75',padre:'Rocío Bustos',vc:'BRG85KT',dob:'20102016'},
+{id:'PSTA092',name:'Sebastián Gutiérrez Torres',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:1000,pin:'55-99-56',padre:'Miriam Torres',vc:'BRG19KD',dob:'26092011'},
+{id:'PSTA216',name:'Sergio Ismael Alvarado Chávez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'38-11-50',padre:'Vanessa Berenice',vc:'BRG36JD',dob:'24012013'},
+{id:'PSTA234',name:'Sofia Canela Madrigal',gid:'tochito-b',status:'adeudo',edad:'11',mayo:900,pin:'56-85-94',padre:'César Canela',vc:'BRG38LN',dob:'06042015'},
+{id:'PSTA143',name:'Sofía Carolina González Lerma',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'54-18-54',padre:'Carolina Lerma Lizárraga',vc:'BRG63ZW',dob:'08112012'},
+{id:'PSTA149',name:'Sofía Fernanda López Valadez',gid:'vol-b',status:'adeudo',edad:'12',mayo:1000,pin:'65-70-66',padre:'Alba Elena Valadez Cervantes',vc:'BRG33FK',dob:'05012014'},
+{id:'PSTA130',name:'Sofia Fletes Topete (sin acento)',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'71-38-88',padre:'Claudia Topete',vc:'BRG80LB',dob:'07072011'},
+{id:'PSTA157',name:'Sofía Siré Arreola Viayra',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'67-40-53',padre:'Jaime Alfonso Arreola Scull',vc:'BRG23VW',dob:'29062012'},
+{id:'PSTA194',name:'Tadeo García Arellano',gid:'bas-b',status:'adeudo',edad:'11',mayo:900,pin:'59-28-06',padre:'Carmen Berenice Arellano',vc:'BRG85RS',dob:'12022015'},
+{id:'PSTA199',name:'Valentina Íñiguez López',gid:'tochito-b',status:'adeudo',edad:'14',mayo:1000,pin:'20-77-16',padre:'Yudith López',vc:'BRG83VK',dob:'14122011'},
+{id:'PSTA106',name:'Valentina Saldaña Asomoza',gid:'vol-a',status:'adeudo',edad:'13',mayo:720,pin:'44-03-72',padre:'Berenice Asomoza',vc:'BRG37RQ',dob:'18042013'},
+{id:'PSTA202',name:'Varenka Carvente Plata',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'38-96-89',padre:'Raúl Carvente',vc:'BRG55DE',dob:'11062012'},
+{id:'PSTA112',name:'Victoria Barajas Godinez',gid:'vol-a',status:'activo',edad:'13',mayo:1,pin:'33-11-83',padre:'Vicky Alejandra Godínez',vc:'BRG53HD',dob:'03122012'},
+{id:'PSTA203',name:'Ximena Montserrat Lizarraga Lozoya',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'79-71-29',padre:'Araceli Lozoya',vc:'BRG56LN',dob:'28102011'},
+{id:'PSTA125',name:'Amelie Olvera Gachuzo',gid:'bas-femenil-a',status:'baja',edad:'12',mayo:0,pin:'',padre:'Diana  Alejandra Gachuzo',vc:'BRG74SW',dob:'13042014'},
+{id:'PSTA006',name:'Ana Paula Rodríguez Reyes',gid:'tochito-a',status:'baja',edad:'9',mayo:0,pin:'',padre:'Froylan Rodríguez',vc:'BRG52NW',dob:'25042017'},
+{id:'PSTA008',name:'Ana Victoria Gil Moncada',gid:'vol-a',status:'baja',edad:'10',mayo:0,pin:'',padre:'Victoria Moncada',vc:'BRG56EY',dob:'20062015'},
+{id:'PSTA217',name:'André Coutigno Aguilar',gid:'bas-b',status:'baja',edad:'10',mayo:0,pin:'',padre:'Brenda Aguilar',vc:'BRG10UN',dob:'22082015'},
+{id:'PSTA010',name:'André Nicolás Bella López',gid:'bas-b',status:'baja',edad:'12',mayo:0,pin:'',padre:'Adriana López',vc:'BRG68YK',dob:'29072013'},
+{id:'PSTA016',name:'Ashley Guizar Espinoza',gid:'vol-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Ruth Espinosa Chavira',vc:'BRG52AP',dob:'22072014'},
+{id:'PSTA190',name:'Bárbara Cervantes García',gid:'vol-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Claudia García',vc:'BRG68EG',dob:'10092014'},
+{id:'PSTA168',name:'Dalia Victoria Ibarra Villarreal',gid:'bas-femenil-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Dalia Villarreal',vc:'BRG25DQ',dob:'11042011'},
+{id:'PSTA024',name:'Diego Kaleb Sánchez Valle',gid:'bas-varonil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Gemma Graciela Valle Jimenez',vc:'BRG64NL',dob:'04072011'},
+{id:'PSTA145',name:'Emilio Estrada Inzunza',gid:'bas-varonil-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Elayne Inzunza',vc:'BRG67RS',dob:'04032013'},
+{id:'PSTA029',name:'Fatima Arroyo Moran',gid:'vol-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Zayda Morán',vc:'BRG42QK',dob:'09072011'},
+{id:'PSTA167',name:'Ian Fernando Almada Ortega',gid:'bas-varonil-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Lupita Ortega',vc:'BRG65HJ',dob:'24022011'},
+{id:'PSTA197',name:'Ivanna Servin Brizuela',gid:'tochito-b',status:'baja',edad:'14',mayo:0,pin:'',padre:'Liliana Brizuela Rosas',vc:'BRG44EC',dob:'01092011'},
+{id:'PSTA038',name:'Ivanna Sofía Hernández Miranda',gid:'bas-femenil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Cristina Miranda/Alberto Hernández',vc:'BRG35VL',dob:'20092011'},
+{id:'PSTA055',name:'María Fernanda Flores Martínez',gid:'bas-femenil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Gabriela Martínez Pedro',vc:'BRG12WN',dob:'07102011'},
+{id:'PSTA191',name:'María Inés Cervantes García',gid:'vol-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Claudia García',vc:'BRG49RB',dob:'25012013'},
+{id:'PSTA158',name:'Maria Valentina Flores Martinez',gid:'bas-femenil-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Gabriela Martínez Pedro',vc:'BRG42QA',dob:'20122014'},
+{id:'PSTA129',name:'Máximo Gerardo Valenzuela Varela',gid:'tochito-b',status:'baja',edad:'12',mayo:0,pin:'',padre:'Gerardo Valenzuela/ Claudia varela',vc:'BRG50YX',dob:'12072013'},
+{id:'PSTA063',name:'Maya Zoé Ramírez Caamaño',gid:'vol-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Marcela Caamaño',vc:'BRG30CK',dob:'13032011'},
+{id:'PSTA065',name:'Melissa Ramírez Ornelas',gid:'bas-femenil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Karen Ornelas',vc:'BRG82GQ',dob:'11062011'},
+{id:'PSTA196',name:'Mía Rangel Valencia',gid:'tochito-b',status:'baja',edad:'13',mayo:0,pin:'',padre:'Myriam Valencia',vc:'BRG59HH',dob:'16062012'},
+{id:'PSTA068',name:'Naim Salazar Martínez',gid:'bas-varonil-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Ana Fabiola Martínez',vc:'BRG23VT',dob:'22092010'},
+{id:'PSTA077',name:'Regina Barajas López',gid:'vol-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Blanca Estela López Guizar',vc:'BRG35PF',dob:'17122010'},
+{id:'PSTA080',name:'Renata Vallejo Murguía',gid:'vol-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Kenya Murguía Gómez',vc:'BRG80EJ',dob:'20012012'},
+{id:'PSTA150',name:'Santiago Joseph Villa Morales',gid:'bas-varonil-a',status:'baja',edad:'16',mayo:0,pin:'',padre:'Ana María Morales Hernández',vc:'BRG42JB',dob:'16042010'},
+{id:'PSTA079',name:'Silvia Regina Rodríguez Reyes',gid:'tochito-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Froylan Rodríguez',vc:'BRG25KV',dob:'21012013'},
+{id:'PSTA102',name:'Valentina Hernández Miranda',gid:'bas-femenil-a',status:'baja',edad:'12',mayo:0,pin:'',padre:'Cristina Miranda/Alberto Hernández',vc:'BRG62YT',dob:'22112013'},
+{id:'PSTA105',name:'Valentina Rodríguez Reyes',gid:'tochito-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Froylan Rodríguez',vc:'BRG89VS',dob:'07062014'},
+{id:'PSTA169',name:'Viviana Ibarra Villarreal',gid:'bas-femenil-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Dalia Villarreal',vc:'BRG13XA',dob:'25032013'},
+{id:'PSTA113',name:'Ximena Beltran del Angel',gid:'vol-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Alejandro Beltrán',vc:'BRG40AM',dob:'07112012'},
+{id:'PSTA115',name:'Ximena Valentina Torres García',gid:'vol-a',status:'baja',edad:'14',mayo:1,pin:'',padre:'Gabriela García',vc:'BRG28NB',dob:'21112011'}
 ];
 
-var MT = {DIC:82100,ENE:24970,FEB:80470,MAR:83720,ABR:88270,MAY:100170};
+var ACCOUNTS = [
+  {id:"a1", role:"admin",  name:"Admin Club Borregos",         email:"admin@borregos.mx",       pwd:"borregos2026", color:"#0A2240", tag:"Administrador · Linkid"},
+  {id:"c1", role:"coach",  name:"Michel Silva",                 email:"michel.silva44@tec.mx",   pwd:"michel2026",   color:"#1D4ED8", tag:"Coach · Basquetbol A + B",   gids:["bas-varonil-a","bas-femenil-a","bas-b"]},
+  {id:"c2", role:"coach",  name:"César Pasillas",               email:"cesar.pasillas@tec.mx",   pwd:"cesar2026",    color:"#059669", tag:"Coach · Voleibol A + B",       gids:["vol-a","vol-b"]},
+  {id:"c3", role:"coach",  name:"Carmen León",                  email:"_leon.carmen@tec.mx",     pwd:"carmen2026",   color:"#D97706", tag:"Coach · Tochito A + B",        gids:["tochito-a","tochito-b"]},
+  {id:"p1", role:"parent", name:"Rocío Bustos",                 email:"rocio@borregos.mx",        pwd:"rocio2026",    color:"#7C3AED", tag:"Mamá · 2 hijos vinculados",    sids:["PSTA001","PSTA091"]},
+  {id:"p2", role:"parent", name:"Erandi Rodríguez",             email:"erandi@borregos.mx",       pwd:"erandi2026",   color:"#DB2777", tag:"Mamá · 5 hijos vinculados",    sids:["PSTA132","PSTA134","PSTA137","PSTA138","PSTA142"]},
+];
+
+var MT = {DIC:99003,ENE:38588,FEB:92329,MAR:88029,ABR:90179,MAY:100179,JUN:9};
 var currentUser = null;
 var currentNav  = "dashboard";
 var coachNav    = "home";
@@ -844,316 +886,165 @@ function renderAdminPadres() {
     +'</div>';
 }
 
-// ══════════════════════════════════════════════════════════════
-// PARENT
-// ══════════════════════════════════════════════════════════════
-var PARENT_TABS = [
-  {id:"home",  ico:"🏠",l:"Inicio"},
-  {id:"pin",   ico:"🔑",l:"PIN"},
-  {id:"alerts",ico:"🔔",l:"Avisos",badge:2},
-  {id:"profile",ico:"👤",l:"Perfil"},
-];
-
-function initParent() {
-  showScreen("parent-screen");
-  document.getElementById("parent-greeting").textContent = "Hola, "+(currentUser.name.split(" ")[0])+" 👋";
-  buildParentNav();
-  renderParentTab("home");
-}
-
-function buildParentNav() {
-  var nav = document.getElementById("parent-nav");
-  nav.innerHTML = "";
-  PARENT_TABS.forEach(function(t) {
-    var btn = document.createElement("button");
-    btn.className = "pnav-btn"+(parentTab===t.id?" active":"");
-    btn.dataset.tab = t.id;
-    btn.innerHTML = '<div class="pnav-ico">'+t.ico+'</div><div>'+t.l+'</div>'
-      +(t.badge?'<div class="pnav-badge">'+t.badge+'</div>':'')
-      +(parentTab===t.id?'<div class="pnav-active-bar"></div>':'');
-    btn.onclick = function() { renderParentTab(t.id); };
-    nav.appendChild(btn);
-  });
-}
-
-function renderParentTab(tab) {
-  parentTab = tab;
-  buildParentNav();
-  var sids = currentUser.sids||[];
-  var students = SD.filter(function(s){return sids.includes(s.id);});
-  var content = document.getElementById("parent-content");
-  
-  if (tab==="home") {
-    if (students.length===0) {
-      content.innerHTML = '<div style="background:#fff;border-radius:16px;padding:32px;text-align:center;margin-top:8px">'
-        +'<div style="font-size:48px;margin-bottom:14px">👨‍👧</div>'
-        +'<div style="font-weight:800;font-size:18px;color:#0F172A;margin-bottom:8px">Sin hijos vinculados</div>'
-        +'<div style="font-size:14px;color:#64748B">Contacta al administrador del Club</div></div>';
-      return;
-    }
-    var html = "";
-    students.forEach(function(s) {
-      var g = GROUPS[s.gid]||{};
-      var ok = s.status==="activo";
-      var show = showPins[s.id];
-      html += '<div class="student-card">'
-        +'<div class="student-card-header" style="background:linear-gradient(135deg,'+(g.color||"#1A4578")+','+(g.color||"#1A4578")+'99)">'
-        +'<div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">'+ini(s.name)+'</div>'
-        +'<div style="position:relative;z-index:1">'
-        +'<div class="stu-name">'+escH(s.name)+'</div>'
-        +'<div class="stu-group">'+g.ico+' '+escH(g.n||"")+'</div>'
-        +'</div>'
-        +'<div style="margin-left:auto;position:relative;z-index:1">'+pill(s.status)+'</div>'
-        +'</div>'
-        +'<div class="student-card-body">'
-        +'<div class="info-grid">'
-        +'<div class="info-box"><div class="info-lbl">Matrícula</div><div class="info-val" style="font-family:monospace">'+escH(s.id)+'</div></div>'
-        +'<div class="info-box"><div class="info-lbl">Coach</div><div class="info-val">'+escH(g.coach||"—")+'</div></div>'
-        +'<div class="info-box"><div class="info-lbl">Días</div><div class="info-val">'+escH(g.dias||"—")+'</div></div>'
-        +'</div>';
-      if (ok) {
-        html += '<div class="pin-box">'
-          +'<div><div class="pin-lbl">PIN de acceso</div>'
-          +(show?'<div class="pin-val">'+escH(s.pin)+'</div>':'<div class="pin-hidden">●●●●</div>')
-          +'<div style="font-size:11px;color:#94A3B8;margin-top:4px">Válido hasta 31 Mayo 2026</div>'
-          +'</div>'
-          +'<button class="pin-btn" data-sid="'+s.id+'" onclick="tgPin(this)">'+(show?"Ocultar":"Ver PIN")+'</button>'
-          +'</div>';
-      } else {
-        html += '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:12px 14px">'
-          +'<div class="pin-blocked"><div class="pin-blocked-ico">🔒</div><div>'
-          +'<div class="pin-blocked-txt">PIN no disponible</div>'
-          +'<div class="pin-blocked-sub">Estatus: '+(s.status==="adeudo"?"Regulariza tu pago para ver el PIN":pill(s.status))+'</div>'
-          +'</div></div></div>';
-      }
-      html += '</div></div>';
-    });
-    content.innerHTML = html;
-  }
-  
-  else if (tab==="pin") {
-    var html = '<div style="margin-bottom:14px"><div style="font-size:19px;font-weight:800;color:#0F172A">PIN de Acceso</div>'
-      +'<div style="font-size:13px;color:#64748B;margin-top:2px">Solo disponible con estatus Activo</div></div>';
-    students.forEach(function(s) {
-      var g = GROUPS[s.gid]||{};
-      var ok = s.status==="activo";
-      var show = showPins["pin_"+s.id];
-      html += '<div class="student-card">'
-        +'<div style="padding:12px 16px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:10px">'
-        +'<div style="width:36px;height:36px;border-radius:50%;background:'+(g.color||"#1A4578")+';color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center">'+ini(s.name)+'</div>'
-        +'<div style="flex:1"><div style="font-weight:700;font-size:14px">'+escH(s.name)+'</div><div style="font-size:11px;color:#64748B;margin-top:1px">'+escH(g.n||"")+'</div></div>'
-        +pill(s.status)+'</div>'
-        +'<div style="padding:14px 16px">';
-      if (ok) {
-        html += '<div style="display:flex;align-items:center;justify-content:space-between">'
-          +'<div><div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">PIN vigente</div>'
-          +(show?'<div class="pin-val">'+escH(s.pin)+'</div>':'<div class="pin-hidden">●●●●</div>')
-          +'<div style="font-size:11px;color:#64748B;margin-top:6px">Válido hasta 31 Mayo 2026</div></div>'
-          +'<button class="pin-btn" data-stab="'+s.id+'" onclick="tgPinTab(this)">'+(show?"Ocultar":"Ver PIN")+'</button></div>';
-      } else {
-        html += '<div class="pin-blocked"><div class="pin-blocked-ico">🔒</div><div>'
-          +'<div class="pin-blocked-txt">PIN no disponible</div>'
-          +'<div class="pin-blocked-sub">'+pill(s.status)+(s.status==="adeudo"?"<br><span style=\'color:#B45309;font-size:11px;font-weight:600\'>Regulariza tu pago</span>":"")+'</div>'
-          +'</div></div>';
-      }
-      html += '</div></div>';
-    });
-    content.innerHTML = html;
-  }
-  
-  else if (tab==="alerts") {
-    var alerts = [
-      {ico:"💰",title:"Pago de junio disponible",body:"El período de pago de junio 2026 está abierto. Fecha límite: 10 de junio.",date:"2026-05-22",read:false},
-      {ico:"📅",title:"Horario especial 26 mayo",body:"Por exámenes, instalaciones cierran a las 7:00 pm el 26 de mayo.",date:"2026-05-21",read:false},
-      {ico:"🎓",title:"Ceremonia de graduación",body:"Alumnos de 14–15 años: reconocimiento el 27 de junio en el Auditorio PrepaTec.",date:"2026-05-20",read:true},
-    ];
-    var html = '<div style="margin-bottom:14px"><div style="font-size:19px;font-weight:800;color:#0F172A">Avisos y alertas</div><div style="font-size:13px;color:#EF4444;font-weight:600;margin-top:2px">2 sin leer</div></div>';
-    alerts.forEach(function(a) {
-      html += '<div style="background:#fff;border:1.5px solid '+(a.read?"#E2E8F0":"#DBEAFE")+';border-radius:14px;overflow:hidden;margin-bottom:10px;opacity:'+(a.read?.8:1)+'">'
-        +'<div style="background:'+(a.read?"#F8FAFC":"#EFF6FF")+';border-bottom:1px solid '+(a.read?"#F1F5F9":"#DBEAFE")+';padding:10px 14px;display:flex;align-items:center;gap:8px">'
-        +'<span style="font-size:18px">'+a.ico+'</span>'
-        +'<div style="flex:1;font-weight:700;font-size:13px;color:'+(a.read?"#475569":"#1E40AF")+'">'+escH(a.title)+'</div>'
-        +(!a.read?'<div style="width:8px;height:8px;border-radius:50%;background:#2563EB;flex-shrink:0"></div>':'')
-        +'</div>'
-        +'<div style="padding:11px 14px"><div style="font-size:13px;color:#334155;line-height:1.6">'+escH(a.body)+'</div>'
-        +'<div style="font-size:11px;color:#94A3B8;margin-top:7px">'+a.date+'</div>'
-        +'</div></div>';
-    });
-    content.innerHTML = html;
-  }
-  
-  else if (tab==="profile") {
-    content.innerHTML = '<div style="background:linear-gradient(135deg,#0A2240,#1A4578);border-radius:16px;padding:20px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px">'
-      +'<div style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center">'+ini(currentUser.name)+'</div>'
-      +'<div><div style="font-weight:800;font-size:17px;color:#fff">'+escH(currentUser.name)+'</div>'
-      +'<div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">'+escH(currentUser.email)+'</div>'
-      +'<div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">'+students.length+' hijo(s) vinculado(s)</div>'
-      +'</div></div>'
-      +'<button onclick="doLogout()" style="width:100%;padding:14px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:14px;font-size:14px;font-weight:700;color:#991B1B">↩ Cerrar sesión</button>';
-  }
-}
-
-function togglePin(id) {
-  showPins[id] = !showPins[id];
-  renderParentTab("home");
-}
-function togglePinTab(id) {
-  showPins["pin_"+id] = !showPins["pin_"+id];
-  renderParentTab("pin");
-}
 
 // ══════════════════════════════════════════════════════════════
 // COACH
 // ══════════════════════════════════════════════════════════════
 var COACH_NAVS = [
-  {id:"home",  ico:"🏠",label:"Inicio"},
-  {id:"lista", ico:"👦",label:"Mi Lista"},
-  {id:"asist", ico:"✅",label:"Asistencia"},
-  {id:"msgs",  ico:"💬",label:"Mensajes"},
+  {id:"home",  ico:"🏠", label:"Inicio"},
+  {id:"lista", ico:"👦", label:"Mi Lista"},
+  {id:"asist", ico:"✅", label:"Asistencia"},
+  {id:"msgs",  ico:"💬", label:"Mensajes"},
 ];
 
 function initCoach() {
-  activeGid = (currentUser.gids||[])[0]||"vol-a";
-  document.getElementById("coach-av").textContent = ini(currentUser.name);
+  activeGid = (currentUser.gids||[])[0] || "vol-a";
+  document.getElementById("coach-av").textContent   = ini(currentUser.name);
   document.getElementById("coach-name").textContent = currentUser.name;
-  
-  // Build group chips
+
+  // Group chips
   var chips = document.getElementById("coach-group-chips");
   chips.innerHTML = "";
   (currentUser.gids||[]).forEach(function(gid) {
-    var g = GROUPS[gid]||{};
+    var g   = GROUPS[gid] || {};
+    var cnt = SD.filter(function(s){return s.gid===gid;}).length;
     var btn = document.createElement("button");
     btn.style.cssText = "padding:4px 10px;border-radius:20px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0";
-    btn.dataset.gid = gid;
-    btn.textContent = g.ico+" "+g.short+" ("+SD.filter(function(s){return s.gid===gid;}).length+")";
-    btn.onclick = function() { activeGid=gid; updateCoachChips(); setCoachNav(coachNav); };
+    btn.dataset.gid   = gid;
+    btn.textContent   = g.ico + " " + g.short + " (" + cnt + ")";
+    btn.onclick = function() { activeGid = gid; updateCoachChips(); setCoachNav(coachNav); };
     chips.appendChild(btn);
   });
   updateCoachChips();
-  
-  // Build sidebar nav
+
+  // Sidebar nav
   var nav = document.getElementById("coach-sidebar-nav");
   nav.innerHTML = "";
   COACH_NAVS.forEach(function(n) {
     var btn = document.createElement("button");
-    btn.className = "nav-btn";
+    btn.className   = "nav-btn";
     btn.dataset.nav = n.id;
-    btn.innerHTML = '<span class="nav-ico">'+n.ico+'</span><span>'+n.label+'</span>';
+    btn.innerHTML   = '<span class="nav-ico">' + n.ico + '</span><span>' + n.label + '</span>';
     btn.onclick = function() { setCoachNav(n.id); };
     nav.appendChild(btn);
   });
-  
+
   showScreen("coach-screen");
   setCoachNav("home");
 }
 
 function updateCoachChips() {
   document.querySelectorAll("#coach-group-chips button").forEach(function(b) {
-    var g = GROUPS[b.dataset.gid]||{};
-    if (b.dataset.gid===activeGid) {
-      b.style.background=g.color||"#1A4578"; b.style.color="#fff";
+    var g = GROUPS[b.dataset.gid] || {};
+    if (b.dataset.gid === activeGid) {
+      b.style.background = g.color || "#1A4578"; b.style.color = "#fff";
     } else {
-      b.style.background="rgba(0,0,0,.06)"; b.style.color="#475569";
+      b.style.background = "rgba(0,0,0,.06)"; b.style.color = "#475569";
     }
   });
 }
 
+function openCoachMenu()  { document.getElementById("coach-sidebar").classList.add("open"); document.getElementById("coach-mob-overlay").classList.add("show"); }
+function closeCoachMenu() { document.getElementById("coach-sidebar").classList.remove("open"); document.getElementById("coach-mob-overlay").classList.remove("show"); }
+
 function setCoachNav(navId) {
   coachNav = navId;
   document.querySelectorAll("#coach-sidebar-nav .nav-btn").forEach(function(b) {
-    b.classList.toggle("active", b.dataset.nav===navId);
+    b.classList.toggle("active", b.dataset.nav === navId);
   });
-  var g = GROUPS[activeGid]||{};
-  document.getElementById("coach-topbar").innerHTML = '<strong>'+escH(g.n||"Mi grupo")+'</strong>';
+  var g    = GROUPS[activeGid] || {};
+  document.getElementById("coach-topbar").innerHTML = "<strong>" + escH(g.n||"Mi grupo") + "</strong>";
   var page = document.getElementById("coach-page-content");
-  if (navId==="home") page.innerHTML = renderCoachHome();
-  else if (navId==="lista") page.innerHTML = renderCoachLista();
-  else if (navId==="asist") renderCoachAsist(page);
-  else if (navId==="msgs") page.innerHTML = renderCoachMsgs();
+  if (navId === "home")  page.innerHTML = renderCoachHome();
+  else if (navId === "lista") page.innerHTML = renderCoachLista();
+  else if (navId === "asist") renderCoachAsist(page);
+  else if (navId === "msgs")  page.innerHTML = renderCoachMsgs();
   closeCoachMenu();
 }
 
-function openCoachMenu() { document.getElementById("coach-sidebar").classList.add("open"); document.getElementById("coach-mob-overlay").classList.add("show"); }
-function closeCoachMenu() { document.getElementById("coach-sidebar").classList.remove("open"); document.getElementById("coach-mob-overlay").classList.remove("show"); }
-
 function renderCoachHome() {
-  var g = GROUPS[activeGid]||{};
+  var g   = GROUPS[activeGid] || {};
   var mem = SD.filter(function(s){return s.gid===activeGid;});
   var act = mem.filter(function(s){return s.status==="activo";}).length;
   var ade = mem.filter(function(s){return s.status==="adeudo";}).length;
-  var html = '<div class="ph"><h2>'+g.ico+' '+escH(g.n||"Mi grupo")+'</h2><p>'+escH(g.dias)+' · '+escH(g.disc||"")+'</p></div>';
-  html += '<div style="background:linear-gradient(135deg,'+(g.color||"#1A4578")+','+(g.color||"#1A4578")+'cc);border-radius:14px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden">'
-    +'<div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.07) 1px,transparent 1px);background-size:14px 14px"></div>'
-    +'<div style="position:relative;display:flex;gap:20px">'
-    +'<div><div style="font-size:24px;font-weight:800;color:#fff">'+mem.length+'</div><div style="font-size:11px;color:rgba(255,255,255,.6)">alumnos</div></div>'
-    +'<div><div style="font-size:24px;font-weight:800;color:#fff">'+act+'</div><div style="font-size:11px;color:rgba(255,255,255,.6)">activos</div></div>'
-    +(ade>0?'<div><div style="font-size:24px;font-weight:800;color:#FDE68A">'+ade+'</div><div style="font-size:11px;color:rgba(255,255,255,.6)">adeudo</div></div>':'')
-    +'</div></div>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
-  [{"ico":"✅","l":"Asistencia","s":"de hoy","n":"asist","bg":"#ECFDF5","bd":"#A7F3D0","tc":"#065F46"},
-   {"ico":"👦","l":"Ver lista","s":mem.length+" alumnos","n":"lista","bg":"#F8FAFC","bd":"#E2E8F0","tc":"#1E293B"},
-  ].forEach(function(q) {
-    html += '<button data-csnav="'+q.n+'" onclick="coachNavClick(this)" style="background:'+q.bg+';border:1.5px solid '+q.bd+';border-radius:13px;padding:13px 12px;text-align:left;cursor:pointer;font-family:inherit">'
-      +'<div style="font-size:22px;margin-bottom:5px">'+q.ico+'</div>'
-      +'<div style="font-size:13px;font-weight:700;color:'+q.tc+'">'+q.l+'</div>'
-      +'<div style="font-size:11px;color:#64748B;margin-top:1px">'+q.s+'</div>'
-      +'</button>';
-  });
-  html += '</div>';
+  var html =
+    '<div class="ph"><h2>' + (g.ico||"") + " " + escH(g.n||"Mi grupo") + '</h2>' +
+    '<p>' + escH(g.dias||"") + " · " + escH(g.disc||"") + "</p></div>" +
+    '<div style="background:linear-gradient(135deg,' + (g.color||"#1A4578") + ',' + (g.color||"#1A4578") + 'cc);border-radius:14px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden">' +
+    '<div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.07) 1px,transparent 1px);background-size:14px 14px"></div>' +
+    '<div style="position:relative;display:flex;gap:20px">' +
+    '<div><div style="font-size:24px;font-weight:800;color:#fff">' + mem.length + '</div><div style="font-size:11px;color:rgba(255,255,255,.6)">alumnos</div></div>' +
+    '<div><div style="font-size:24px;font-weight:800;color:#fff">' + act + '</div><div style="font-size:11px;color:rgba(255,255,255,.6)">activos</div></div>' +
+    (ade > 0 ? '<div><div style="font-size:24px;font-weight:800;color:#FDE68A">' + ade + '</div><div style="font-size:11px;color:rgba(255,255,255,.6)">adeudo</div></div>' : "") +
+    "</div></div>" +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+    '<button onclick="setCoachNavAsist()" style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:13px;padding:13px 12px;text-align:left;cursor:pointer;font-family:inherit">' +
+    '<div style="font-size:22px;margin-bottom:5px">✅</div>' +
+    '<div style="font-size:13px;font-weight:700;color:#065F46">Asistencia</div>' +
+    '<div style="font-size:11px;color:#64748B;margin-top:1px">de hoy</div></button>' +
+    '<button onclick="setCoachNavLista()" style="background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:13px;padding:13px 12px;text-align:left;cursor:pointer;font-family:inherit">' +
+    '<div style="font-size:22px;margin-bottom:5px">👦</div>' +
+    '<div style="font-size:13px;font-weight:700;color:#1E293B">Ver lista</div>' +
+    '<div style="font-size:11px;color:#64748B;margin-top:1px">' + mem.length + " alumnos</div></button></div>";
   return html;
 }
 
+function setCoachNavAsist() { setCoachNav("asist"); }
+function setCoachNavLista() { setCoachNav("lista"); }
+function setCoachNavMsgs()  { setCoachNav("msgs"); }
+
 function renderCoachLista() {
-  var g = GROUPS[activeGid]||{};
+  var g   = GROUPS[activeGid] || {};
   var mem = SD.filter(function(s){return s.gid===activeGid;});
-  var html = '<div class="ph"><h2>'+escH(g.n||"Lista")+'</h2><p>'+mem.length+' participantes</p></div>'
-    +'<div class="card"><div class="table-wrap"><table><thead><tr><th>#</th><th>Alumno</th><th>Edad</th><th>Estatus</th><th>Padre/Tutor</th></tr></thead><tbody>';
-  mem.forEach(function(s,i) {
-    html += '<tr><td style="color:#94A3B8;font-family:monospace;font-size:11px">'+(i+1)+'</td>'
-      +'<td><strong>'+escH(s.name)+'</strong></td>'
-      +'<td style="text-align:center;font-weight:600">'+(s.edad||"—")+'</td>'
-      +'<td>'+pill(s.status)+'</td>'
-      +'<td style="font-size:12px">'+escH(s.padre||"")+'</td></tr>';
+  var html =
+    '<div class="ph"><h2>' + escH(g.n||"Lista") + '</h2><p>' + mem.length + " participantes</p></div>" +
+    '<div class="card"><div class="table-wrap"><table><thead><tr>' +
+    "<th>#</th><th>Alumno</th><th>Edad</th><th>Estatus</th><th>Padre/Tutor</th>" +
+    "</tr></thead><tbody>";
+  mem.forEach(function(s, i) {
+    html += "<tr>" +
+      '<td style="color:#94A3B8;font-family:monospace;font-size:11px">' + (i+1) + "</td>" +
+      "<td><strong>" + escH(s.name) + "</strong></td>" +
+      '<td style="text-align:center;font-weight:600">' + (s.edad||"—") + "</td>" +
+      "<td>" + pill(s.status) + "</td>" +
+      '<td style="font-size:12px">' + escH(s.padre||"") + "</td></tr>";
   });
-  html += '</tbody></table></div></div>'
-    +'<div class="alert alert-info" style="margin-top:10px">ℹ️ Solo lectura — estatus y pagos son administrados por el coordinador</div>';
+  html += "</tbody></table></div></div>" +
+    '<div class="alert alert-info" style="margin-top:10px">ℹ️ Solo lectura — los cambios de estatus y pagos los administra el coordinador.</div>';
   return html;
 }
 
 function renderCoachAsist(page) {
-  var g = GROUPS[activeGid]||{};
-  var mem = SD.filter(function(s){return s.gid===activeGid;});
-  var todayKey = activeGid+"-today";
-  var todayAtt = attendance[todayKey]||{};
+  var g        = GROUPS[activeGid] || {};
+  var mem      = SD.filter(function(s){return s.gid===activeGid;});
+  var todayKey = activeGid + "-today";
+  var todayAtt = attendance[todayKey] || {};
   var presentCnt = Object.values(todayAtt).filter(Boolean).length;
-  
-  var html = '<div class="ph"><h2>Asistencia</h2><p>'+new Date().toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"})+'</p></div>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">';
-  [{"n":mem.length,"l":"Total","bg":"#EFF6FF","vc":"#1A4578"},
-   {"n":presentCnt,"l":"Presentes","bg":"#ECFDF5","vc":"#065F46"},
-   {"n":mem.length-presentCnt,"l":"Ausentes","bg":"#FEF2F2","vc":"#991B1B"},
-  ].forEach(function(s) {
-    html += '<div style="background:'+s.bg+';border-radius:11px;padding:12px;text-align:center;border:1px solid #E2E8F0">'
-      +'<div style="font-size:24px;font-weight:800;color:'+s.vc+'">'+s.n+'</div>'
-      +'<div style="font-size:11px;color:#64748B;margin-top:3px">'+s.l+'</div></div>';
-  });
-  html += '</div><div id="att-list"></div>'
-    +'<button onclick="saveAttendance()" style="width:100%;padding:13px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;margin-top:8px;cursor:pointer;font-family:inherit">'
-    +'Guardar asistencia ('+presentCnt+'/'+mem.length+')</button>';
-  
+
+  var html =
+    '<div class="ph"><h2>Asistencia</h2>' +
+    '<p>' + new Date().toLocaleDateString("es-MX", {weekday:"long",day:"numeric",month:"long"}) + "</p></div>" +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">' +
+    '<div style="background:#EFF6FF;border-radius:11px;padding:12px;text-align:center;border:1px solid #E2E8F0"><div style="font-size:24px;font-weight:800;color:#1A4578">' + mem.length + '</div><div style="font-size:11px;color:#64748B;margin-top:3px">Total</div></div>' +
+    '<div style="background:#ECFDF5;border-radius:11px;padding:12px;text-align:center;border:1px solid #E2E8F0"><div style="font-size:24px;font-weight:800;color:#065F46">' + presentCnt + '</div><div style="font-size:11px;color:#64748B;margin-top:3px">Presentes</div></div>' +
+    '<div style="background:#FEF2F2;border-radius:11px;padding:12px;text-align:center;border:1px solid #E2E8F0"><div style="font-size:24px;font-weight:800;color:#991B1B">' + (mem.length - presentCnt) + '</div><div style="font-size:11px;color:#64748B;margin-top:3px">Ausentes</div></div>' +
+    '</div><div id="att-list"></div>' +
+    '<button onclick="saveAttendance()" style="width:100%;padding:13px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;margin-top:8px;cursor:pointer;font-family:inherit">Guardar asistencia (' + presentCnt + "/" + mem.length + ")</button>";
+
   page.innerHTML = html;
-  
+
   var list = document.getElementById("att-list");
   mem.forEach(function(s) {
     var here = !!todayAtt[s.id];
-    var btn = document.createElement("button");
-    btn.className = "att-btn"+(here?" present":"");
-    btn.innerHTML = '<div class="att-check">'+(here?"✓":"")+'</div>'
-      +'<div style="width:36px;height:36px;border-radius:50%;background:'+(g.color||"#1A4578")+';color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+ini(s.name)+'</div>'
-      +'<div class="att-name">'+escH(s.name)+'</div>'
-      +'<div class="att-status">'+(here?"✓ Presente":"Ausente")+'</div>';
+    var btn  = document.createElement("button");
+    btn.className = "att-btn" + (here ? " present" : "");
+    btn.innerHTML =
+      '<div class="att-check">' + (here ? "✓" : "") + "</div>" +
+      '<div style="width:36px;height:36px;border-radius:50%;background:' + (g.color||"#1A4578") + ';color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + ini(s.name) + "</div>" +
+      '<div class="att-name">' + escH(s.name) + "</div>" +
+      '<div class="att-status">' + (here ? "✓ Presente" : "Ausente") + "</div>";
     btn.onclick = function() {
-      if (!attendance[todayKey]) attendance[todayKey]={};
+      if (!attendance[todayKey]) attendance[todayKey] = {};
       attendance[todayKey][s.id] = !todayAtt[s.id];
       renderCoachAsist(page);
     };
@@ -1162,44 +1053,453 @@ function renderCoachAsist(page) {
 }
 
 function renderCoachMsgs() {
-  return '<div class="ph"><h2>Mensajes</h2><p>Envía comunicados a los padres de tu grupo</p></div>'
-    +'<div class="card" style="padding:16px;max-width:480px">'
-    +'<div style="font-size:13px;font-weight:700;color:#1E293B;margin-bottom:13px">✏️ Nuevo mensaje</div>'
-    +'<div style="margin-bottom:11px"><label style="font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Tipo</label>'
-    +'<div style="display:flex;gap:6px">'
-    +[{"k":"info","l":"ℹ️ Info"},{"k":"event","l":"📅 Evento"},{"k":"alert","l":"⚠️ Alerta"}].map(function(t){
-      return '<button data-mtype="'+t.k+'" onclick="selMsgType(this)" style="padding:5px 10px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">'+t.l+'</button>';
-    }).join('')+'</div></div>'
-    +'<div style="margin-bottom:11px"><label style="font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Mensaje</label>'
-    +'<textarea id="msg-txt" rows="4" placeholder="Escribe el mensaje…" style="width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:9px;font-size:13px;resize:none;font-family:inherit;outline:none"></textarea></div>'
-    +'<button onclick="sendCoachMsg()" style="width:100%;padding:11px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Enviar a padres →</button>'
-    +'<div id="msg-sent" style="display:none;margin-top:8px;padding:8px 12px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;font-size:12px;font-weight:600;color:#065F46">✅ Mensaje enviado</div>'
-    +'</div>';
-}
-
-function selectMsgType(btn, type) {
-  document.querySelectorAll("#coach-page-content button[onclick^='selectMsgType']").forEach(function(b) {
-    b.style.borderColor="#E2E8F0"; b.style.background="#fff"; b.style.color="#475569";
-  });
-  btn.style.borderColor="#0A2240"; btn.style.background="rgba(10,34,64,.1)"; btn.style.color="#0A2240";
+  var g = GROUPS[activeGid] || {};
+  return '<div class="ph"><h2>Mensajes</h2><p>Comunica avisos al grupo de padres</p></div>' +
+    '<div class="card" style="padding:16px;max-width:480px">' +
+    '<div style="font-size:13px;font-weight:700;color:#1E293B;margin-bottom:13px">✏️ Nuevo mensaje</div>' +
+    '<div style="margin-bottom:11px"><label style="font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Tipo</label>' +
+    '<div style="display:flex;gap:6px">' +
+    '<button data-mtype="info"  onclick="selMsgType(this)" style="padding:5px 10px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">ℹ️ Info</button>' +
+    '<button data-mtype="event" onclick="selMsgType(this)" style="padding:5px 10px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">📅 Evento</button>' +
+    '<button data-mtype="alert" onclick="selMsgType(this)" style="padding:5px 10px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">⚠️ Alerta</button>' +
+    '</div></div>' +
+    '<div style="margin-bottom:11px"><label style="font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Mensaje</label>' +
+    '<textarea id="msg-txt" rows="4" placeholder="Escribe el aviso para los padres del grupo ' + escH(g.short||"") + '…" style="width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:9px;font-size:13px;resize:none;font-family:inherit;outline:none"></textarea></div>' +
+    '<button onclick="sendCoachMsg()" style="width:100%;padding:11px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Enviar a padres →</button>' +
+    '<div id="msg-sent" style="display:none;margin-top:8px;padding:8px 12px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;font-size:12px;font-weight:600;color:#065F46">✅ Mensaje enviado</div></div>' +
+    '<div style="margin-top:14px"><div style="font-size:12px;font-weight:700;color:#64748B;margin-bottom:8px">MENSAJES RECIENTES</div>' +
+    coachMessages.filter(function(m){return m.gid===activeGid;}).map(function(m){
+      var tc = m.type==="alert"?"#92400E":m.type==="event"?"#065F46":"#1E40AF";
+      var bg = m.type==="alert"?"#FFFBEB":m.type==="event"?"#ECFDF5":"#EFF6FF";
+      return '<div style="background:'+bg+';border-radius:10px;padding:11px 13px;margin-bottom:8px">' +
+        '<div style="font-size:10px;font-weight:700;color:'+tc+';margin-bottom:4px">' + m.type.toUpperCase() + ' · ' + m.date + '</div>' +
+        '<div style="font-size:13px;color:#334155;line-height:1.5">' + escH(m.text) + '</div></div>';
+    }).join("") + "</div>";
 }
 
 function sendCoachMsg() {
-  var txt = (document.getElementById("msg-txt")||{}).value||"";
+  var txt = (document.getElementById("msg-txt")||{}).value || "";
   if (!txt.trim()) return;
-  var sent = document.getElementById("msg-sent");
-  if (sent) { sent.style.display="block"; setTimeout(function(){sent.style.display="none";},2500); }
-  document.getElementById("msg-txt").value="";
+  var g   = GROUPS[activeGid] || {};
+  var now = new Date().toISOString().slice(0,10);
+  coachMessages.unshift({
+    id:   "m" + Date.now(),
+    gid:  activeGid,
+    from: currentUser.name,
+    date: now,
+    type: window._selectedMsgType || "info",
+    text: txt.trim()
+  });
+  var el = document.getElementById("msg-sent");
+  if (el) { el.style.display="block"; setTimeout(function(){el.style.display="none";},2500); }
+  document.getElementById("msg-txt").value = "";
+  // Re-render to show new message
+  setTimeout(function(){ setCoachNav("msgs"); }, 600);
 }
 
 function saveAttendance() {
-  var g = GROUPS[activeGid]||{};
-  var mem = SD.filter(function(s){return s.gid===activeGid;});
-  var todayKey = activeGid+"-today";
+  var g          = GROUPS[activeGid] || {};
+  var mem        = SD.filter(function(s){return s.gid===activeGid;});
+  var todayKey   = activeGid + "-today";
   var presentCnt = Object.values(attendance[todayKey]||{}).filter(Boolean).length;
-  alert("✅ Asistencia guardada: "+presentCnt+"/"+mem.length+" presentes en "+escH(g.n||""));
+  alert("✅ Asistencia guardada: " + presentCnt + "/" + mem.length + " presentes en " + (g.n||""));
 }
 
+// ══════════════════════════════════════════════════════════════
+// SHARED: Coach messages (visible to parents)
+// ══════════════════════════════════════════════════════════════
+var coachMessages = [
+  {id:"m1",gid:"vol-a",  from:"César Pasillas",   date:"2026-05-24", type:"info",  text:"Entrenamiento del lunes 26 se mueve a las 7pm por mantenimiento de instalaciones."},
+  {id:"m2",gid:"bas-varonil-a",from:"Michel Silva",date:"2026-05-23", type:"event", text:"Torneo interno sábado 31 mayo, 10am. Uniforme completo obligatorio. Llegar 30 min antes."},
+  {id:"m3",gid:"tochito-b",from:"Carmen León",     date:"2026-05-22", type:"alert", text:"Alumnos con adeudo no podrán ingresar a partir del lunes. Favor de regularizar."},
+  {id:"m4",gid:"bas-b",  from:"Michel Silva",      date:"2026-05-21", type:"info",  text:"Se suspende práctica del jueves 22 por evento escolar. Nos vemos el martes."},
+  {id:"m5",gid:"vol-b",  from:"César Pasillas",    date:"2026-05-20", type:"event", text:"Exhibición final del ciclo: sábado 14 junio, 11am. Inviten a la familia."},
+];
+
+// ══════════════════════════════════════════════════════════════
+// PARENT PORTAL
+// ══════════════════════════════════════════════════════════════
+var PARENT_TABS = [
+  {id:"home",   ico:"🏠", l:"Inicio"},
+  {id:"pin",    ico:"🔑", l:"PIN"},
+  {id:"mensajes",ico:"💬",l:"Mensajes", badge:0},
+  {id:"perfil", ico:"👤", l:"Perfil"},
+];
+
+var linkedStudents = {};   // uid → [sids]  persisted per session
+var showPins       = {};
+var parentTab      = "home";
+var vincState      = "idle";
+
+function initParent() {
+  // Load any previously linked students for this user
+  if (!linkedStudents[currentUser.id]) {
+    linkedStudents[currentUser.id] = (currentUser.sids || []).slice();
+  }
+  showScreen("parent-screen");
+  document.getElementById("parent-greeting").textContent =
+    "Hola, " + currentUser.name.split(" ")[0] + " 👋";
+  renderParentTab("home");
+}
+
+function buildParentNav() {
+  var sids     = linkedStudents[currentUser.id] || [];
+  var myGids   = sids.map(function(sid){
+    var s = SD.find(function(x){return x.id===sid;});
+    return s ? s.gid : null;
+  }).filter(Boolean);
+  var msgCount = coachMessages.filter(function(m){
+    return myGids.includes(m.gid);
+  }).length;
+
+  var nav = document.getElementById("parent-nav");
+  if (!nav) return;
+  nav.innerHTML = "";
+  PARENT_TABS.forEach(function(t) {
+    var badge = t.id==="mensajes" ? msgCount : 0;
+    var btn   = document.createElement("button");
+    btn.className = "pnav-btn" + (parentTab===t.id ? " active" : "");
+    btn.dataset.tab = t.id;
+    btn.innerHTML =
+      '<div class="pnav-ico">' + t.ico + '</div>' +
+      '<div>' + t.l + '</div>' +
+      (badge > 0 ? '<div class="pnav-badge">' + badge + '</div>' : '') +
+      (parentTab===t.id ? '<div class="pnav-active-bar"></div>' : '');
+    btn.onclick = function() { renderParentTab(t.id); };
+    nav.appendChild(btn);
+  });
+}
+
+function renderParentTab(tab) {
+  parentTab = tab;
+  buildParentNav();
+  var content = document.getElementById("parent-content");
+  if (!content) return;
+
+  if (tab === "home")     renderParentHome(content);
+  else if (tab === "pin") renderParentPin(content);
+  else if (tab === "mensajes") renderParentMensajes(content);
+  else if (tab === "perfil") renderParentPerfil(content);
+  else if (tab === "vincular") renderParentVincular(content);
+}
+
+// ── HOME ─────────────────────────────────────────────────────
+function renderParentHome(content) {
+  var sids     = linkedStudents[currentUser.id] || [];
+  var students = SD.filter(function(s){ return sids.includes(s.id); });
+
+  if (students.length === 0) {
+    content.innerHTML =
+      '<div style="background:#fff;border-radius:16px;padding:32px;text-align:center;margin-top:8px;border:1px solid #E2E8F0">' +
+      '<div style="font-size:48px;margin-bottom:14px">👨‍👧</div>' +
+      '<div style="font-weight:800;font-size:18px;color:#0F172A;margin-bottom:8px">Sin hijos vinculados</div>' +
+      '<div style="font-size:14px;color:#64748B;margin-bottom:20px;line-height:1.6">Vincula a tu hijo/a para ver su PIN y mensajes del coach.</div>' +
+      '<button onclick="goVincular()" style="padding:12px 24px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">🔗 Vincular hijo/a</button>' +
+      '</div>';
+    return;
+  }
+
+  var html = "";
+  students.forEach(function(s) {
+    var g    = GROUPS[s.gid] || {};
+    var ok   = s.status === "activo";
+    var show = showPins[s.id];
+    html +=
+      '<div class="student-card">' +
+      '<div class="student-card-header" style="background:linear-gradient(135deg,' + (g.color||"#1A4578") + ',' + (g.color||"#1A4578") + '99)">' +
+      '<div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">' + ini(s.name) + '</div>' +
+      '<div style="position:relative;z-index:1;flex:1">' +
+      '<div class="stu-name">' + escH(s.name) + '</div>' +
+      '<div class="stu-group">' + (g.ico||"") + ' ' + escH(g.n||"") + ' · ' + escH(g.disc||"") + '</div>' +
+      '</div>' + pill(s.status) + '</div>' +
+      '<div class="student-card-body">' +
+      '<div class="info-grid">' +
+      '<div class="info-box"><div class="info-lbl">Matrícula</div><div class="info-val" style="font-family:monospace">' + escH(s.id) + '</div></div>' +
+      '<div class="info-box"><div class="info-lbl">Coach</div><div class="info-val">' + escH(g.coach||"—") + '</div></div>' +
+      '<div class="info-box"><div class="info-lbl">Días</div><div class="info-val">' + escH(g.dias||"—") + '</div></div>' +
+      '</div>';
+
+    if (ok) {
+      html +=
+        '<div class="pin-box">' +
+        '<div><div class="pin-lbl">PIN de acceso</div>' +
+        (show
+          ? '<div class="pin-val">' + escH(s.pin) + '</div>'
+          : '<div class="pin-hidden">●●●●●●</div>') +
+        '<div style="font-size:11px;color:#94A3B8;margin-top:4px">Válido · Junio 2026</div></div>' +
+        '<button class="pin-btn" data-sid="' + s.id + '" onclick="tgPin(this)">' +
+        (show ? "Ocultar" : "Ver PIN") + '</button></div>';
+    } else {
+      html +=
+        '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:12px 14px">' +
+        '<div class="pin-blocked"><div class="pin-blocked-ico">🔒</div>' +
+        '<div><div class="pin-blocked-txt">PIN no disponible</div>' +
+        '<div class="pin-blocked-sub">' +
+        (s.status==="adeudo" ? "Regulariza tu pago para ver el PIN" : pill(s.status)) +
+        '</div></div></div></div>';
+    }
+    html += '</div></div>';
+  });
+
+  // Quick actions
+  html +=
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">' +
+    '<button onclick="goMensajes()" style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:13px;padding:13px 12px;text-align:left;cursor:pointer;font-family:inherit">' +
+    '<div style="font-size:22px;margin-bottom:5px">💬</div>' +
+    '<div style="font-size:13px;font-weight:700;color:#1E40AF">Mensajes</div>' +
+    '<div style="font-size:11px;color:#64748B;margin-top:1px">del coach</div></button>' +
+    '<button onclick="goVincular()" style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:13px;padding:13px 12px;text-align:left;cursor:pointer;font-family:inherit">' +
+    '<div style="font-size:22px;margin-bottom:5px">➕</div>' +
+    '<div style="font-size:13px;font-weight:700;color:#065F46">Vincular</div>' +
+    '<div style="font-size:11px;color:#64748B;margin-top:1px">otro hijo/a</div></button>' +
+    '</div>';
+
+  content.innerHTML = html;
+}
+
+// ── PIN TAB ───────────────────────────────────────────────────
+function renderParentPin(content) {
+  var sids     = linkedStudents[currentUser.id] || [];
+  var students = SD.filter(function(s){ return sids.includes(s.id); });
+
+  var html = '<div style="margin-bottom:14px"><div style="font-size:19px;font-weight:800;color:#0F172A">PIN de Acceso</div>' +
+    '<div style="font-size:13px;color:#64748B;margin-top:2px">Preséntalo al coach al llegar · Solo disponible si estás Activo</div></div>';
+
+  if (students.length === 0) {
+    html += '<div style="text-align:center;padding:40px;background:#fff;border-radius:14px;border:1px solid #E2E8F0">' +
+      '<div style="font-size:40px;margin-bottom:12px">🔑</div>' +
+      '<div style="font-weight:700;color:#334155">Sin hijos vinculados</div>' +
+      '<div style="font-size:13px;color:#64748B;margin-top:6px">Vincúlalos desde la pestaña Inicio</div></div>';
+  }
+
+  students.forEach(function(s) {
+    var g    = GROUPS[s.gid] || {};
+    var ok   = s.status === "activo";
+    var show = showPins["pin_" + s.id];
+    html +=
+      '<div class="student-card">' +
+      '<div style="padding:12px 16px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:10px">' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:' + (g.color||"#1A4578") + ';color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center">' + ini(s.name) + '</div>' +
+      '<div style="flex:1"><div style="font-weight:700;font-size:14px">' + escH(s.name) + '</div>' +
+      '<div style="font-size:11px;color:#64748B;margin-top:1px">' + escH(g.n||"") + ' · ' + escH(g.coach||"") + '</div></div>' +
+      pill(s.status) + '</div>' +
+      '<div style="padding:14px 16px">';
+    if (ok) {
+      html +=
+        '<div style="display:flex;align-items:center;justify-content:space-between">' +
+        '<div><div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">PIN vigente</div>' +
+        (show
+          ? '<div class="pin-val">' + escH(s.pin) + '</div>'
+          : '<div class="pin-hidden">●●●●●●</div>') +
+        '<div style="font-size:11px;color:#64748B;margin-top:6px">Válido · Junio 2026</div></div>' +
+        '<button class="pin-btn" data-stab="' + s.id + '" onclick="tgPinTab(this)">' +
+        (show ? "Ocultar" : "Ver PIN") + '</button></div>';
+    } else {
+      html +=
+        '<div class="pin-blocked"><div class="pin-blocked-ico">🔒</div>' +
+        '<div><div class="pin-blocked-txt">PIN no disponible · ' + (s.status==="adeudo" ? "Adeudo pendiente" : pill(s.status)) + '</div>' +
+        (s.status==="adeudo"
+          ? '<div class="pin-blocked-sub" style="color:#B45309;font-weight:600">Regulariza tu pago con el administrador</div>'
+          : '') +
+        '</div></div>';
+    }
+    html += '</div></div>';
+  });
+  content.innerHTML = html;
+}
+
+// ── MENSAJES TAB ──────────────────────────────────────────────
+function renderParentMensajes(content) {
+  var sids   = linkedStudents[currentUser.id] || [];
+  var myGids = sids.map(function(sid){
+    var s = SD.find(function(x){return x.id===sid;});
+    return s ? s.gid : null;
+  }).filter(Boolean);
+
+  var msgs = coachMessages.filter(function(m){
+    return myGids.includes(m.gid);
+  });
+
+  var typeMap = {
+    info:   {ico:"ℹ️",  lbl:"Info",     bg:"#EFF6FF", tc:"#1E40AF"},
+    event:  {ico:"📅",  lbl:"Evento",   bg:"#ECFDF5", tc:"#065F46"},
+    alert:  {ico:"⚠️",  lbl:"Alerta",   bg:"#FFFBEB", tc:"#92400E"},
+  };
+
+  var html =
+    '<div style="margin-bottom:14px">' +
+    '<div style="font-size:19px;font-weight:800;color:#0F172A">Mensajes del Coach</div>' +
+    '<div style="font-size:13px;color:#64748B;margin-top:2px">' + msgs.length + ' mensaje' + (msgs.length!==1?"s":"") + ' para tu grupo</div></div>';
+
+  if (msgs.length === 0) {
+    html +=
+      '<div style="background:#fff;border-radius:14px;padding:32px;text-align:center;border:1px solid #E2E8F0">' +
+      '<div style="font-size:36px;margin-bottom:12px">💬</div>' +
+      '<div style="font-weight:700;color:#334155;margin-bottom:4px">Sin mensajes aún</div>' +
+      '<div style="font-size:13px;color:#64748B">Los coaches enviarán avisos sobre entrenamientos, eventos y horarios.</div></div>';
+  } else {
+    msgs.forEach(function(m) {
+      var g  = GROUPS[m.gid] || {};
+      var tp = typeMap[m.type] || typeMap.info;
+      html +=
+        '<div style="background:#fff;border:1px solid #E2E8F0;border-radius:14px;overflow:hidden;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.07)">' +
+        '<div style="background:' + tp.bg + ';padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #F1F5F9">' +
+        '<span style="font-size:18px">' + tp.ico + '</span>' +
+        '<div style="flex:1">' +
+        '<div style="font-weight:700;font-size:12px;color:' + tp.tc + '">' + tp.lbl + ' · ' + escH(g.short||m.gid) + '</div>' +
+        '<div style="font-size:10px;color:#94A3B8;margin-top:1px">Coach: ' + escH(m.from) + '</div>' +
+        '</div>' +
+        '<div style="font-size:10px;color:#94A3B8">' + m.date + '</div>' +
+        '</div>' +
+        '<div style="padding:12px 14px;font-size:13px;color:#334155;line-height:1.6">' + escH(m.text) + '</div>' +
+        '</div>';
+    });
+  }
+  content.innerHTML = html;
+}
+
+// ── VINCULAR TAB ──────────────────────────────────────────────
+function renderParentVincular(content) {
+  vincState = "idle";
+  var html =
+    '<div style="margin-bottom:16px">' +
+    '<button onclick="goHome()" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:#475569;font-family:inherit;margin-bottom:12px">← Volver</button>' +
+    '<div style="font-size:19px;font-weight:800;color:#0F172A">Vincular hijo/a</div>' +
+    '<div style="font-size:13px;color:#64748B;margin-top:2px">Datos proporcionados por el Club</div></div>' +
+
+    '<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:11px 13px;margin-bottom:18px;font-size:13px;color:#1E40AF">' +
+    '<div style="font-weight:700;margin-bottom:3px">🔐 ¿Dónde encuentro estos datos?</div>' +
+    '<div style="font-size:12px;line-height:1.6;color:#334155">El administrador del Club te proporcionó la <strong>matrícula</strong> y el <strong>código de vinculación</strong> al inscribir a tu hijo/a.</div></div>' +
+
+    '<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">' +
+    '<div><label style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Matrícula del alumno</label>' +
+    '<input id="vinc-mat" type="text" placeholder="Ej: PSTA001" oninput="this.value=this.value.toUpperCase();resetVinc()" ' +
+    'style="width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:9px;font-size:16px;font-family:monospace;letter-spacing:2px;text-transform:uppercase;outline:none;color:#0F172A"/></div>' +
+    '<div><label style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">Código de vinculación</label>' +
+    '<input id="vinc-code" type="text" placeholder="Ej: BRG81TG" oninput="this.value=this.value.toUpperCase();resetVinc()" ' +
+    'style="width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:9px;font-size:18px;font-family:monospace;letter-spacing:3px;text-transform:uppercase;outline:none;color:#0F172A"/></div>' +
+    '</div>' +
+
+    '<div id="vinc-result"></div>' +
+
+    '<button id="vinc-btn" onclick="doVincular()" ' +
+    'style="width:100%;padding:13px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px">Verificar datos</button>' +
+
+    '<div style="margin-top:14px;padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:9px">' +
+    '<div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px">Prueba rápida</div>' +
+    '<div style="font-size:12px;color:#475569">Matrícula: <strong style="font-family:monospace;color:#1A4578">PSTA003</strong> &nbsp;·&nbsp; Código: <strong style="font-family:monospace;color:#7C3AED">BRG81TG</strong></div></div>';
+
+  content.innerHTML = html;
+}
+
+function renderVincResult() {
+  var el = document.getElementById("vinc-result");
+  if (!el) return;
+  if (vincState === "idle") { el.innerHTML = ""; return; }
+  if (vincState === "loading") {
+    el.innerHTML = '<div style="padding:13px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;text-align:center;font-size:14px;color:#1E40AF;font-weight:600;margin-bottom:12px">Verificando…</div>';
+    return;
+  }
+  if (vincState === "error") {
+    el.innerHTML = '<div style="padding:13px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;margin-bottom:12px">' +
+      '<div style="font-weight:700;color:#991B1B;font-size:14px;margin-bottom:3px">Código o matrícula inválidos</div>' +
+      '<div style="font-size:12px;color:#B91C1C">Verifica los datos e inténtalo de nuevo.</div></div>';
+    return;
+  }
+  if (vincState === "already") {
+    el.innerHTML = '<div style="padding:13px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;margin-bottom:12px;font-size:13px;color:#92400E;font-weight:600">⚠️ Este alumno ya está vinculado a tu cuenta</div>';
+    return;
+  }
+  if (vincState === "success" && window._vincFound) {
+    var s = window._vincFound;
+    var g = GROUPS[s.gid] || {};
+    el.innerHTML =
+      '<div style="background:#ECFDF5;border:1px solid #A7F3D0;border-radius:12px;padding:14px 16px;margin-bottom:12px">' +
+      '<div style="font-weight:700;color:#065F46;font-size:13px;margin-bottom:10px">✅ Alumno encontrado — Confirma la vinculación</div>' +
+      '<div style="display:flex;align-items:center;gap:12px">' +
+      '<div style="width:42px;height:42px;border-radius:50%;background:' + (g.color||"#1A4578") + ';color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + ini(s.name) + '</div>' +
+      '<div><div style="font-weight:700;font-size:15px;color:#0F172A">' + escH(s.name) + '</div>' +
+      '<div style="font-size:12px;color:#64748B;margin-top:2px">' + escH(g.n||"—") + ' · ' + escH(g.dias||"") + '</div>' +
+      '<div style="font-size:12px;color:#64748B;margin-top:1px">' + s.edad + ' años · Coach: ' + escH(g.coach||"—") + '</div></div></div></div>' +
+      '<button onclick="confirmVincular()" style="width:100%;padding:12px;background:#10B981;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px">Confirmar vinculación →</button>';
+  }
+}
+
+function doVincular() {
+  var mat  = ((document.getElementById("vinc-mat")||{}).value||"").trim().toUpperCase();
+  var code = ((document.getElementById("vinc-code")||{}).value||"").trim().toUpperCase();
+  if (!mat || !code) return;
+
+  vincState = "loading";
+  renderVincResult();
+
+  setTimeout(function() {
+    var found = SD.find(function(s){
+      return s.id.toUpperCase() === mat && s.vc.toUpperCase() === code;
+    });
+    var sids = linkedStudents[currentUser.id] || [];
+    if (!found) { vincState = "error"; }
+    else if (sids.includes(found.id)) { vincState = "already"; }
+    else { vincState = "success"; window._vincFound = found; }
+    renderVincResult();
+    // Change button text
+    var btn = document.getElementById("vinc-btn");
+    if (btn && vincState !== "success") btn.textContent = "Verificar datos";
+  }, 600);
+}
+
+function confirmVincular() {
+  if (!window._vincFound) return;
+  if (!linkedStudents[currentUser.id]) linkedStudents[currentUser.id] = [];
+  linkedStudents[currentUser.id].push(window._vincFound.id);
+  window._vincFound = null;
+  vincState = "idle";
+  renderParentTab("home");
+}
+
+// ── PERFIL TAB ────────────────────────────────────────────────
+function renderParentPerfil(content) {
+  var sids     = linkedStudents[currentUser.id] || [];
+  var students = SD.filter(function(s){ return sids.includes(s.id); });
+
+  content.innerHTML =
+    '<div style="background:linear-gradient(135deg,#0A2240,#1A4578);border-radius:16px;padding:20px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px">' +
+    '<div style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center">' + ini(currentUser.name) + '</div>' +
+    '<div><div style="font-weight:800;font-size:17px;color:#fff">' + escH(currentUser.name) + '</div>' +
+    '<div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">' + escH(currentUser.email) + '</div>' +
+    '<div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px">' + students.length + ' hijo(s) vinculado(s)</div></div></div>' +
+
+    (students.length > 0
+      ? '<div style="background:#fff;border:1px solid #E2E8F0;border-radius:14px;overflow:hidden;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.07)">' +
+        '<div style="padding:11px 16px;border-bottom:1px solid #F1F5F9;font-size:12px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px">Hijos vinculados</div>' +
+        students.map(function(s){
+          var g = GROUPS[s.gid]||{};
+          return '<div style="padding:12px 16px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:10px">' +
+            '<div style="width:34px;height:34px;border-radius:50%;background:' + (g.color||"#1A4578") + ';color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">' + ini(s.name) + '</div>' +
+            '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:#0F172A">' + escH(s.name) + '</div>' +
+            '<div style="font-size:11px;color:#64748B;margin-top:1px">' + escH(g.n||"") + ' · ' + escH(s.id) + '</div></div>' +
+            pill(s.status) + '</div>';
+        }).join('') + '</div>'
+      : '') +
+
+    '<button onclick="goVincular()" style="width:100%;padding:12px 16px;background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:14px;display:flex;align-items:center;gap:12px;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:10px">' +
+    '<div style="font-size:20px">🔗</div>' +
+    '<div><div style="font-size:14px;font-weight:700;color:#065F46">Vincular otro hijo/a</div>' +
+    '<div style="font-size:12px;color:#64748B;margin-top:1px">Agregar a otro alumno del Club</div></div></button>' +
+
+    '<button onclick="doLogout()" style="width:100%;padding:14px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:14px;font-size:14px;font-weight:700;color:#991B1B;cursor:pointer;font-family:inherit">↩ Cerrar sesión</button>';
+}
+
+function tgPin(btn) {
+  var sid = btn.getAttribute("data-sid");
+  showPins[sid] = !showPins[sid];
+  renderParentTab("home");
+}
+function tgPinTab(btn) {
+  var sid = btn.getAttribute("data-stab");
+  showPins["pin_"+sid] = !showPins["pin_"+sid];
+  renderParentTab("pin");
+}
 </script>
 </body>
 </html>
