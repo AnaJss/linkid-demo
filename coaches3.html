@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Linkid · Portal Coaches · Club Borregos</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#F0F4F8;min-height:100vh;color:#0F172A}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,#0A2240,#1A4578);padding:20px 20px 26px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:16px 16px}
+.header-inner{position:relative;z-index:1}
+.header img{height:48px;object-fit:contain;margin-bottom:10px}
+.header h1{font-size:19px;font-weight:800;color:#fff;margin-bottom:3px}
+.header p{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.5px}
+
+.main{max-width:520px;margin:0 auto;padding:20px 16px 80px}
+
+/* ── LOGIN ── */
+.login-card{background:#fff;border:1px solid #E2E8F0;border-radius:18px;padding:24px 22px;box-shadow:0 2px 14px rgba(0,0,0,.08);margin-bottom:18px}
+.login-title{font-size:16px;font-weight:800;color:#0F172A;margin-bottom:3px}
+.login-sub{font-size:13px;color:#64748B;margin-bottom:20px;line-height:1.5}
+.field{margin-bottom:14px}
+.field-label{font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.7px;display:block;margin-bottom:5px}
+.nomina-input{width:100%;padding:13px 14px;border:2px solid #E2E8F0;border-radius:11px;font-size:20px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:3px;text-transform:uppercase;text-align:center;outline:none;color:#0A2240;transition:border .15s}
+.nomina-input:focus{border-color:#2563EB}
+.nomina-input::placeholder{font-size:13px;font-weight:400;letter-spacing:.5px;color:#CBD5E1;font-family:'Plus Jakarta Sans',sans-serif}
+.btn-login{width:100%;padding:14px;background:#0A2240;color:#fff;border:none;border-radius:11px;font-size:15px;font-weight:800;margin-top:4px;transition:background .15s}
+.btn-login:hover{background:#1A4578}
+.error-box{background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:11px 13px;font-size:13px;color:#DC2626;text-align:center;margin-top:10px;display:none;font-weight:600}
+.warn-box{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;font-size:12px;color:#92400E;margin-top:8px;display:none;font-weight:600}
+.hint{display:flex;gap:8px;align-items:flex-start;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:12px;color:#1E40AF;line-height:1.5}
+
+/* ── LOCK ── */
+.lock-screen{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:18px;padding:32px 20px;text-align:center;margin-bottom:16px;display:none}
+.lock-ico{font-size:48px;margin-bottom:12px}
+.lock-title{font-size:18px;font-weight:800;color:#991B1B;margin-bottom:6px}
+.lock-sub{font-size:13px;color:#B91C1C;line-height:1.6}
+.lock-timer{font-size:24px;font-weight:800;color:#DC2626;margin:12px 0}
+
+/* ── DASHBOARD ── */
+.coach-header{background:linear-gradient(135deg,var(--cc),var(--cc)cc);border-radius:16px;padding:18px 20px;margin-bottom:16px;position:relative;overflow:hidden;display:flex;align-items:center;gap:14px}
+.coach-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.07) 1px,transparent 1px);background-size:13px 13px}
+.coach-av{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0;position:relative;z-index:1}
+.coach-info{position:relative;z-index:1}
+.coach-name{font-size:18px;font-weight:800;color:#fff}
+.coach-role{font-size:12px;color:rgba(255,255,255,.65);margin-top:2px}
+.logout-btn{margin-left:auto;position:relative;z-index:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:#fff}
+
+/* ── GROUP TABS ── */
+.group-tabs{display:flex;gap:7px;margin-bottom:14px;overflow-x:auto;padding-bottom:3px}
+.gtab{flex-shrink:0;padding:8px 14px;background:#fff;border:2px solid #E2E8F0;border-radius:20px;font-size:12px;font-weight:700;color:#475569;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+.gtab.active{color:#fff;border-color:transparent}
+
+/* ── NAV PILLS ── */
+.nav-row{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px}
+.nav-pill{flex-shrink:0;padding:7px 14px;background:#fff;border:1.5px solid #E2E8F0;border-radius:20px;font-size:12px;font-weight:700;color:#475569;cursor:pointer;transition:all .15s}
+.nav-pill.active{background:#0A2240;color:#fff;border-color:#0A2240}
+
+/* ── SECTION ── */
+.section-title{font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.stat-box{border-radius:11px;padding:12px;text-align:center;border:1px solid #E2E8F0}
+.stat-val{font-size:26px;font-weight:900;line-height:1}
+.stat-lbl{font-size:11px;color:#64748B;margin-top:3px;font-weight:500}
+
+/* ── STUDENT LIST ── */
+.stu-row{display:flex;align-items:center;gap:11px;padding:10px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:11px;margin-bottom:7px}
+.stu-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.stu-name{flex:1;font-size:13px;font-weight:600;color:#0F172A}
+.stu-meta{font-size:11px;color:#94A3B8;margin-top:1px}
+
+/* ── ATTENDANCE ── */
+.att-btn{display:flex;align-items:center;gap:11px;padding:11px 14px;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;width:100%;margin-bottom:7px;text-align:left;transition:all .15s}
+.att-btn.present{background:#ECFDF5;border-color:#A7F3D0}
+.att-check{width:28px;height:28px;border-radius:50%;background:#E2E8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:700;transition:all .15s}
+.att-btn.present .att-check{background:#10B981;color:#fff}
+.att-name{flex:1;font-size:13px;font-weight:600;color:#0F172A}
+.att-status{font-size:12px;font-weight:600;color:#94A3B8}
+.att-btn.present .att-status{color:#065F46}
+.save-btn{width:100%;padding:13px;background:#0A2240;color:#fff;border:none;border-radius:11px;font-size:15px;font-weight:800;margin-top:6px}
+.save-btn:hover{background:#1A4578}
+.save-confirm{background:#ECFDF5;border:1px solid #A7F3D0;border-radius:10px;padding:10px 13px;font-size:13px;font-weight:600;color:#065F46;text-align:center;margin-top:8px;display:none}
+
+/* ── MESSAGES ── */
+.msg-type-row{display:flex;gap:6px;margin-bottom:10px}
+.msg-type-btn{padding:6px 12px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;color:#475569}
+.msg-type-btn.active{background:#0A2240;color:#fff;border-color:#0A2240}
+.msg-textarea{width:100%;padding:11px 13px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:13px;resize:none;outline:none;line-height:1.6;transition:border .15s}
+.msg-textarea:focus{border-color:#2563EB}
+.send-btn{width:100%;padding:12px;background:#0A2240;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;margin-top:8px}
+.msg-item{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;margin-bottom:8px}
+.msg-item-head{padding:9px 13px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #F1F5F9}
+.msg-item-body{padding:10px 13px;font-size:13px;color:#334155;line-height:1.6}
+
+/* ── PILL ── */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+
+/* ── SEARCH ── */
+.search-wrap{position:relative;margin-bottom:12px}
+.search-wrap::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+.search-wrap input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid #E2E8F0;border-radius:9px;font-size:13px;outline:none}
+.search-wrap input:focus{border-color:#2563EB}
+
+/* ── CARD ── */
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-head{padding:11px 14px;border-bottom:1px solid #F1F5F9;font-size:12px;font-weight:700;color:#334155;display:flex;align-items:center;justify-content:space-between}
+
+.footer{text-align:center;padding:24px 16px;font-size:11px;color:#94A3B8}
+.footer strong{color:#64748B}
+
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.anim{animation:up .3s ease both}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <img src="data:image/png;base64,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" alt="Linkid"/>
+    <h1>Portal de Coaches</h1>
+    <p>CLUB BORREGOS SANTA ANITA · PrepaTec</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- LOCK -->
+  <div class="lock-screen" id="lock-section">
+    <div class="lock-ico">🔒</div>
+    <div class="lock-title">Acceso bloqueado</div>
+    <div class="lock-sub">Demasiados intentos incorrectos.<br>Intenta de nuevo en:</div>
+    <div class="lock-timer" id="lock-timer">5:00</div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login-section">
+    <div class="login-card">
+      <div class="login-title">🏅 Acceso Coaches</div>
+      <div class="login-sub">Ingresa tu número de nómina para acceder a tu panel.</div>
+      <div class="field">
+        <label class="field-label">Número de nómina</label>
+        <input class="nomina-input" id="nomina-input" type="text"
+          placeholder="Ej: L03530708" maxlength="12"
+          autocomplete="off" autocorrect="off" spellcheck="false"
+          oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"
+          onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn-login" onclick="doLogin()">Entrar →</button>
+      <div class="error-box" id="error-box">Nómina no reconocida. Verifica el número e intenta de nuevo.</div>
+      <div class="warn-box" id="warn-box"></div>
+      <div class="hint">🔒 Tu nómina es tu identificador único — no la compartas con nadie.</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard-section" style="display:none"></div>
+
+</div>
+
+<div class="footer" id="footer-bar">
+  <strong>Linkid</strong> · Club Borregos Santa Anita · PrepaTec
+</div>
+
+<script>function switchGrp(btn){switchGroup(btn.getAttribute('data-sgid'));}
+function switchNavBtn(btn)   { switchNav(btn.getAttribute('data-nav')); }
+function selMsgTypeBtn(btn)  { selMsgType(btn.getAttribute('data-mtype')); }
+
+
+var GROUPS={"bas-varonil-a": {"n": "Basquetbol Varonil A", "short": "Bas. Varonil A", "disc": "Basquetbol", "dias": "Lun/Mi\u00e9", "color": "#1D4ED8", "ico": "\ud83c\udfc0", "coach": "Michel Silva"}, "bas-femenil-a": {"n": "Basquetbol Femenil A", "short": "Bas. Femenil A", "disc": "Basquetbol", "dias": "Lun/Mi\u00e9", "color": "#7C3AED", "ico": "\ud83c\udfc0", "coach": "Michel Silva"}, "bas-b": {"n": "Basquetbol B", "short": "Bas. B", "disc": "Basquetbol", "dias": "Mar/Jue", "color": "#2563EB", "ico": "\ud83c\udfc0", "coach": "Michel Silva"}, "tochito-a": {"n": "Tochito A", "short": "Tochito A", "disc": "Tochito", "dias": "Lun/Mi\u00e9", "color": "#D97706", "ico": "\ud83c\udfc8", "coach": "Carmen León"}, "tochito-b": {"n": "Tochito B", "short": "Tochito B", "disc": "Tochito", "dias": "Mar/Jue", "color": "#B45309", "ico": "\ud83c\udfc8", "coach": "Carmen León"}, "vol-a": {"n": "Voleibol A", "short": "Vol. A", "disc": "Voleibol", "dias": "Lun/Mi\u00e9", "color": "#059669", "ico": "\ud83c\udfd0", "coach": "César Pasillas"}, "vol-b": {"n": "Voleibol B", "short": "Vol. B", "disc": "Voleibol", "dias": "Mar/Jue", "color": "#10B981", "ico": "\ud83c\udfd0", "coach": "César Pasillas"}};
+var SD=[
+{id:'PSTA001',name:'Adrián Domínguez Bustos',gid:'bas-b',status:'adeudo',edad:'10',mayo:0,pin:'98-09-74',padre:'Rocío Bustos',vc:'BRG56YY',dob:'01062015'},
+{id:'PSTA003',name:'Alan Josué Rodríguez Rodríguez',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:1000,pin:'84-35-36',padre:'Paulina Rodríguez Aguirre',vc:'BRG81TG',dob:'15102013'},
+{id:'PSTA119',name:'Alondra Paulette Pineda Buenrostro',gid:'vol-a',status:'activo',edad:'13',mayo:1,pin:'86-55-07',padre:'Karla Ivonne Buenrostro Manzano',vc:'BRG63TA',dob:'03042013'},
+{id:'PSTA131',name:'Ana Lucía Valdés Moreno',gid:'vol-a',status:'activo',edad:'12',mayo:1,pin:'77-85-84',padre:'Lucia Ibeth Moreno Mercado',vc:'BRG82UA',dob:'17062013'},
+{id:'PSTA195',name:'Ana Paola López Mendoza',gid:'tochito-b',status:'adeudo',edad:'13',mayo:900,pin:'80-83-57',padre:'Paola Mendoza Aguayo',vc:'BRG44EZ',dob:'27072012'},
+{id:'PSTA132',name:'Ana Paola Schmidt Rodríguez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:720,pin:'91-09-33',padre:'Erandi Rodríguez',vc:'BRG59HL',dob:'19062012'},
+{id:'PSTA140',name:'Ana Paula Fernández Estrada',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'16-07-89',padre:'Mariana Estrada',vc:'BRG58NX',dob:'04052012'},
+{id:'PSTA192',name:'Ana Paula Rojas Mayorquín',gid:'tochito-b',status:'adeudo',edad:'14',mayo:900,pin:'13-81-68',padre:'Kenia Mayorquin',vc:'BRG48JF',dob:'28012012'},
+{id:'PSTA180',name:'Ana Sofía Rizo Aguilar',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'99-82-36',padre:'Alejandra Aguilar',vc:'BRG19RQ',dob:'22052013'},
+{id:'PSTA188',name:'Andrea Contreras Ibarra',gid:'vol-a',status:'adeudo',edad:'11',mayo:1000,pin:'35-21-44',padre:'Ana Félix Ibarra',vc:'BRG17PT',dob:'06052015'},
+{id:'PSTA011',name:'Andrea García López',gid:'vol-b',status:'adeudo',edad:'13',mayo:900,pin:'56-69-53',padre:'Erika López Soto',vc:'BRG49DD',dob:'12102012'},
+{id:'PSTA226',name:'Andrea Jacqueline Benavides Murillo',gid:'bas-femenil-a',status:'adeudo',edad:'12',mayo:900,pin:'77-61-68',padre:'Fátima Selene Murillo',vc:'BRG74LN',dob:'29052013'},
+{id:'PSTA212',name:'Andrea Olivares Torices',gid:'vol-b',status:'adeudo',edad:'10',mayo:1000,pin:'79-59-84',padre:'Anelizza Torices',vc:'BRG78CJ',dob:'25052015'},
+{id:'PSTA013',name:'Andree Sánchez Minjarrez',gid:'bas-b',status:'adeudo',edad:'10',mayo:0,pin:'46-81-10',padre:'Dina vathzy',vc:'BRG83BA',dob:'22082015'},
+{id:'PSTA214',name:'Angela Arellano Mariscal',gid:'vol-b',status:'adeudo',edad:'13',mayo:900,pin:'39-01-07',padre:'Mairlén Mariscal',vc:'BRG56LU',dob:'20032013'},
+{id:'PSTA224',name:'Areli Venerada Lomelí Iniestra',gid:'tochito-b',status:'adeudo',edad:'12',mayo:1000,pin:'96-50-04',padre:'Valery Iniestra',vc:'BRG17PJ',dob:'01112013'},
+{id:'PSTA136',name:'Azul Ivonne Nuñez Chávez',gid:'vol-b',status:'adeudo',edad:'14',mayo:1000,pin:'34-38-08',padre:'Ivonne Chávez',vc:'BRG90QZ',dob:'09062011'},
+{id:'PSTA194',name:'Bruno Rojas Mayorquín',gid:'tochito-b',status:'adeudo',edad:'11',mayo:900,pin:'95-52-97',padre:'Kenia Mayorquin',vc:'BRG85RS',dob:'29122014'},
+{id:'PSTA200',name:'Camila Íñiguez López',gid:'tochito-b',status:'adeudo',edad:'14',mayo:1000,pin:'95-99-17',padre:'Yudith López',vc:'BRG77HV',dob:'14122011'},
+{id:'PSTA176',name:'Carlos Eduardo Altamirano Emicente',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:1000,pin:'62-34-02',padre:'Liliana Emicente',vc:'BRG66QS',dob:'10082011'},
+{id:'PSTA236',name:'César Uriel Pasillas Zaragoza',gid:'bas-b',status:'adeudo',edad:'10',mayo:450,pin:'58-37-71',padre:'Alicia Guadalupe Zaragoza Franco',vc:'BRG56EV',dob:'21032016'},
+{id:'PSTA174',name:'Constanza Ibarra Bañuelos',gid:'tochito-b',status:'adeudo',edad:'14',mayo:1000,pin:'83-78-67',padre:'Alexandra Bañuelos',vc:'BRG93MU',dob:'24102011'},
+{id:'PSTA165',name:'Damian Abdiel Sánchez Ibarra',gid:'bas-b',status:'adeudo',edad:'10',mayo:0,pin:'52-68-96',padre:'Ana Patricia Ibarra Lomelí',vc:'BRG77PN',dob:'30112015'},
+{id:'PSTA240',name:'Danna Griselle Morales Mora',gid:'vol-b',status:'activo',edad:'14',mayo:0,pin:'38-22-38',padre:'Griselda Lisseth Mora',vc:'BRG90CB',dob:'09092011'},
+{id:'PSTA162',name:'Daniela Estefanía Huerta Barba',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'21-68-09',padre:'Oscar Huerta',vc:'BRG49XG',dob:'26122012'},
+{id:'PSTA228',name:'Dante Hernández Ramírez',gid:'bas-b',status:'adeudo',edad:'11',mayo:900,pin:'26-94-22',padre:'Ana Ramírez Ortega',vc:'BRG47HT',dob:'06012015'},
+{id:'PSTA229',name:'Demetria Hernández Ramírez',gid:'bas-b',status:'adeudo',edad:'8',mayo:900,pin:'69-26-90',padre:'Marco Hernández Díaz',vc:'BRG53VS',dob:'23102017'},
+{id:'PSTA183',name:'Elian Villarruel Velazquez',gid:'bas-b',status:'adeudo',edad:'8',mayo:1000,pin:'18-38-75',padre:'Alethia Velázquez',vc:'BRG60WJ',dob:'08022018'},
+{id:'PSTA027',name:'Emilio Alberto Rodriguez Coronado',gid:'bas-varonil-a',status:'adeudo',edad:'13',mayo:1000,pin:'98-83-09',padre:'Janette Coronado Martinez',vc:'BRG44EQ',dob:'13052013'},
+{id:'PSTA028',name:'Emma Islas Tostado',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'41-01-60',padre:'Rafael Islas',vc:'BRG22NR',dob:'03052013'},
+{id:'PSTA159',name:'Estefanía Acero Cupa',gid:'tochito-b',status:'adeudo',edad:'14',mayo:0,pin:'83-33-93',padre:'Fabiola Cupa Gutiérrez',vc:'BRG85KJ',dob:'23042012'},
+{id:'PSTA186',name:'Estefanía Rosas Collazo',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'76-29-65',padre:'Roxana Collazo',vc:'BRG16GR',dob:'30062012'},
+{id:'PSTA225',name:'Ester Santiago Fong',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'61-13-51',padre:'Miriam Fong Arango',vc:'BRG14EG',dob:'03032013'},
+{id:'PSTA133',name:'Fátima Castañeda Flores',gid:'vol-a',status:'adeudo',edad:'10',mayo:1000,pin:'61-97-53',padre:'Sofía Paulina Flores González',vc:'BRG88NQ',dob:'12102015'},
+{id:'PSTA030',name:'Fernanda Gutiérrez Torres',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'65-51-81',padre:'Miriam Torres',vc:'BRG29HT',dob:'02022015'},
+{id:'PSTA213',name:'Fernanda Olivares Torices',gid:'vol-b',status:'adeudo',edad:'10',mayo:1000,pin:'89-10-98',padre:'Anelizza Torices',vc:'BRG29PH',dob:'25052015'},
+{id:'PSTA221',name:'Florencia Miroslava González Perales',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'80-48-24',padre:'Maria Gabriela Perales Villalobos',vc:'BRG65BU',dob:'25042011'},
+{id:'PSTA185',name:'Gael Aquino Sánchez',gid:'bas-b',status:'adeudo',edad:'9',mayo:900,pin:'80-36-00',padre:'Cecilia Sánchez Jácome',vc:'BRG90JR',dob:'17102016'},
+{id:'PSTA219',name:'Gael Olveda Hurtado',gid:'tochito-a',status:'adeudo',edad:'10',mayo:900,pin:'51-21-79',padre:'Karina María Elena Hurtado',vc:'BRG72JX',dob:'02102015'},
+{id:'PSTA211',name:'Ian Arturo Loza Herrera',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:1000,pin:'28-15-41',padre:'Martha Herrera Coronado',vc:'BRG97KP',dob:'09072013'},
+{id:'PSTA187',name:'Ian Chen Lara Pan',gid:'bas-varonil-a',status:'activo',edad:'11',mayo:1,pin:'27-01-53',padre:'Lifang Pan',vc:'BRG99MB',dob:'31052014'},
+{id:'PSTA156',name:'Iker Tiscareño Romero',gid:'bas-b',status:'adeudo',edad:'13',mayo:900,pin:'96-49-46',padre:'Fabiola Teresa Romero',vc:'BRG26LB',dob:'05012013'},
+{id:'PSTA134',name:'Inés Schmidt Rodríguez',gid:'vol-b',status:'adeudo',edad:'12',mayo:720,pin:'62-89-40',padre:'Erandi Rodríguez',vc:'BRG89PC',dob:'10022014'},
+{id:'PSTA209',name:'Isaac Jacome Solorzano',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'83-58-76',padre:'Ilzeth Solorzano',vc:'BRG29VA',dob:'22112014'},
+{id:'PSTA144',name:'Isabella Santana Tirado',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'20-25-59',padre:'Gabriela Ivonne Tirado González',vc:'BRG41BF',dob:'10082012'},
+{id:'PSTA175',name:'Isabella Serna Jiménez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'42-62-84',padre:'Brenda Jiménez',vc:'BRG28UX',dob:'13122012'},
+{id:'PSTA230',name:'Itsani Miranda Cruz Hernández',gid:'bas-b',status:'adeudo',edad:'10',mayo:1000,pin:'89-57-74',padre:'Ariatne Adriana Hernández López',vc:'BRG44YT',dob:'14102015'},
+{id:'PSTA232',name:'Ivanna Alcalá Flores',gid:'tochito-a',status:'adeudo',edad:'10',mayo:900,pin:'61-46-50',padre:'Ivonne Flores Ríos',vc:'BRG72WS',dob:'23022016'},
+{id:'PSTA135',name:'Ivanna Castañeda Flores',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'29-73-55',padre:'Sofía Paulina Flores González',vc:'BRG13RE',dob:'29042013'},
+{id:'PSTA036',name:'Ivanna Gonzalez Rios',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'62-74-20',padre:'Fabiola Ríos Hernández',vc:'BRG12WR',dob:'08102012'},
+{id:'PSTA220',name:'Ivanna Isabella Gutiérrez Camarena',gid:'vol-b',status:'adeudo',edad:'12',mayo:900,pin:'12-07-82',padre:'Carmen Camarena Gómez',vc:'BRG75ZS',dob:'22082013'},
+{id:'PSTA037',name:'Ivanna Martínez Gutiérrez',gid:'bas-femenil-a',status:'adeudo',edad:'14',mayo:1000,pin:'76-81-29',padre:'Roxana Gutiérrez Huizar',vc:'BRG98LY',dob:'20012012'},
+{id:'PSTA178',name:'Ivanna Paola Juárez Carranza',gid:'tochito-b',status:'adeudo',edad:'14',mayo:0,pin:'93-88-16',padre:'Paola Carranza',vc:'BRG65HT',dob:'01042012'},
+{id:'PSTA231',name:'Ivanna Sánchez Reyes',gid:'tochito-a',status:'adeudo',edad:'10',mayo:1000,pin:'53-46-21',padre:'Patricia Reyes Zúñiga',vc:'BRG57MD',dob:'02012016'},
+{id:'PSTA235',name:'Ivanna Zoe Molina Toscano',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:900,pin:'44-15-25',padre:'Pamela Lizeth Toscano Carrillo',vc:'BRG24WW',dob:'17042013'},
+{id:'PSTA152',name:'Jana Sofía Campos Vargas',gid:'bas-femenil-a',status:'adeudo',edad:'14',mayo:1000,pin:'24-60-68',padre:'Berenice Vargas Rosas',vc:'BRG87FA',dob:'05052012'},
+{id:'PSTA155',name:'Jon Blanco Elourdy',gid:'tochito-a',status:'adeudo',edad:'10',mayo:900,pin:'77-08-85',padre:'Itziar Elourdy Suárez',vc:'BRG29HZ',dob:'12012016'},
+{id:'PSTA238',name:'José Luis Vazquez Medina',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:900,pin:'62-93-87',padre:'Guadalupe Medina Reyes',vc:'BRG44EJ',dob:'27092011'},
+{id:'PSTA137',name:'Juan Fernando Schmidt Rodríguez',gid:'tochito-b',status:'adeudo',edad:'12',mayo:720,pin:'50-16-11',padre:'Erandi Rodríguez',vc:'BRG59VF',dob:'10022014'},
+{id:'PSTA181',name:'Juan Gustavo Alvarez Batista',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'73-13-16',padre:'Uki Batista',vc:'BRG31DN',dob:'11082014'},
+{id:'PSTA138',name:'Juan Pablo Schmidt Rodríguez',gid:'vol-b',status:'adeudo',edad:'13',mayo:720,pin:'95-52-40',padre:'Erandi Rodríguez',vc:'BRG99TK',dob:'19062012'},
+{id:'PSTA046',name:'Julieta González Gómez',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'82-84-57',padre:'María del Carmen Gómez Gtz',vc:'BRG64NE',dob:'08032013'},
+{id:'PSTA147',name:'Julieta Rubio Sánchez',gid:'vol-b',status:'adeudo',edad:'12',mayo:1000,pin:'28-33-29',padre:'Berenice Sánchez',vc:'BRG10UN',dob:'13062013'},
+{id:'PSTA127',name:'Kaleb Aquino Sánchez',gid:'bas-b',status:'adeudo',edad:'11',mayo:900,pin:'85-03-76',padre:'Cecilia Sánchez Jácome',vc:'BRG38YV',dob:'31052014'},
+{id:'PSTA184',name:'Leonardo Coutiño Aguilar',gid:'bas-varonil-a',status:'adeudo',edad:'10',mayo:1000,pin:'59-10-06',padre:'Brenda Aguilar',vc:'BRG30WR',dob:'06112015'},
+{id:'PSTA171',name:'Leonardo Mateo Borrayo Anzaldo',gid:'bas-b',status:'activo',edad:'11',mayo:1,pin:'95-82-70',padre:'Alma Anzaldo',vc:'BRG92LD',dob:'22032015'},
+{id:'PSTA148',name:'Luciana Estrada Inzunza',gid:'tochito-a',status:'adeudo',edad:'10',mayo:1000,pin:'66-81-38',padre:'Elayne Inzunza',vc:'BRG93TM',dob:'06112015'},
+{id:'PSTA139',name:'Luciano Ademar Meyer Ruelas',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:1000,pin:'67-49-04',padre:'Itza Ruelas Ortegón',vc:'BRG20EY',dob:'16082011'},
+{id:'PSTA182',name:'Lucio Hang Lara Pan',gid:'bas-varonil-a',status:'activo',edad:'14',mayo:1,pin:'15-74-38',padre:'Lifang Pan',vc:'BRG78CC',dob:'06082011'},
+{id:'PSTA052',name:'Luis Daniel Márquez Alvarez',gid:'tochito-a',status:'adeudo',edad:'8',mayo:1000,pin:'12-90-74',padre:'Anna Alvarez',vc:'BRG13RV',dob:'26102017'},
+{id:'PSTA204',name:'Lyah Victoria Acosta Luque',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'47-18-67',padre:'Marlen luque angulo',vc:'BRG28GT',dob:'01022013'},
+{id:'PSTA207',name:'Maite Villarruel Velazquez',gid:'tochito-b',status:'adeudo',edad:'11',mayo:1000,pin:'75-96-13',padre:'Alethia Velázquez',vc:'BRG39FB',dob:'14052015'},
+{id:'PSTA126',name:'Maitena Wertz Bush',gid:'vol-b',status:'activo',edad:'15',mayo:1,pin:'63-12-10',padre:'Liliana Bush',vc:'BRG47HT',dob:'05042011'},
+{id:'PSTA201',name:'Marcela Elizabeth Galicia Pérez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'30-26-99',padre:'Lucía Elizabeth Pérez',vc:'BRG31DG',dob:'03082012'},
+{id:'PSTA160',name:'Marcelo Toscano Abaroa',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'71-17-25',padre:'Patricia Abaroa',vc:'BRG15ZX',dob:'09012015'},
+{id:'PSTA205',name:'María José Muñiz Corona',gid:'vol-b',status:'adeudo',edad:'10',mayo:1000,pin:'35-99-56',padre:'María Elena Corona Mendoza',vc:'BRG38ES',dob:'04082015'},
+{id:'PSTA057',name:'María Karol Reyna Ramírez',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'72-33-79',padre:'Miriam Ramírez',vc:'BRG83BX',dob:'18052011'},
+{id:'PSTA146',name:'Mariana  Contreras Ibarra',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'35-50-50',padre:'Ana Félix Ibarra',vc:'BRG73KX',dob:'03062011'},
+{id:'PSTA059',name:'Mariana López Hallal',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'41-45-11',padre:'Karem Hallal',vc:'BRG19KA',dob:'25042011'},
+{id:'PSTA223',name:'Mateo Palomares Enriquez',gid:'bas-varonil-a',status:'adeudo',edad:'13',mayo:1000,pin:'48-03-75',padre:'Juan Carlos Palomares',vc:'BRG36QC',dob:'16052013'},
+{id:'PSTA177',name:'Matías Altamirano Emicente',gid:'bas-b',status:'adeudo',edad:'8',mayo:1000,pin:'90-21-67',padre:'Carlos Altamirano',vc:'BRG73KG',dob:'12102017'},
+{id:'PSTA129',name:'Máximo Gerardo Valenzuela Varela',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:1000,pin:'31-11-70',padre:'Gerardo Valenzuela/ Claudia varela',vc:'BRG50YX',dob:'12072013'},
+{id:'PSTA066',name:'Mía Montserrat Mendoza Mena',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'16-25-76',padre:'Berenice Mena',vc:'BRG35BH',dob:'05022011'},
+{id:'PSTA210',name:'Mía Sofía López Placencia',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:900,pin:'24-17-61',padre:'Mayra Placencia',vc:'BRG22NA',dob:'27032013'},
+{id:'PSTA218',name:'Mía Victoria Almada Ortega',gid:'vol-b',status:'adeudo',edad:'14',mayo:0,pin:'51-57-19',padre:'María Guadalupe Ortega',vc:'BRG67DD',dob:'01032012'},
+{id:'PSTA067',name:'Miranda Mercado Juárez',gid:'vol-a',status:'activo',edad:'15',mayo:1,pin:'41-82-01',padre:'Macrina Juárez Duarte',vc:'BRG76ND',dob:'29012011'},
+{id:'PSTA208',name:'Natalia Jireh Cruz Rubio',gid:'vol-b',status:'adeudo',edad:'13',mayo:0,pin:'44-84-73',padre:'Lucy Rubio',vc:'BRG63MB',dob:'18072012'},
+{id:'PSTA170',name:'Nicolás Rodríguez Uribe',gid:'bas-varonil-a',status:'adeudo',edad:'11',mayo:900,pin:'99-13-49',padre:'Vicente Rodríguez',vc:'BRG21ZV',dob:'01032015'},
+{id:'PSTA215',name:'Nicole Andrea Vasquez García',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'98-42-45',padre:'Carmen Rosa García Rodríguez',vc:'BRG84JF',dob:'05012013'},
+{id:'PSTA189',name:'Nina Gaytán de la Rosa',gid:'vol-a',status:'adeudo',edad:'13',mayo:900,pin:'18-78-57',padre:'Veronica de la Rosa',vc:'BRG54CV',dob:'10112012'},
+{id:'PSTA233',name:'Odalys Giselle Sánchez Hernández',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:900,pin:'16-07-36',padre:'Mayra Cristina Hernández Puentes',vc:'BRG40ND',dob:'07052013'},
+{id:'PSTA141',name:'Paola Fernanda Vázquez Gasca',gid:'bas-femenil-a',status:'adeudo',edad:'13',mayo:1000,pin:'93-92-89',padre:'Miriam Gasca',vc:'BRG87MF',dob:'11102012'},
+{id:'PSTA073',name:'Paola Zoé Arreola Viayra',gid:'vol-b',status:'adeudo',edad:'12',mayo:1000,pin:'35-84-93',padre:'Brenda Berenice Viayra',vc:'BRG95PG',dob:'13042014'},
+{id:'PSTA161',name:'Patricio Toscano Abaroa',gid:'bas-b',status:'adeudo',edad:'7',mayo:1000,pin:'44-46-41',padre:'Patricia Abaroa',vc:'BRG86YR',dob:'17092018'},
+{id:'PSTA074',name:'Paula Scarlett Rivas Guardado',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'34-61-67',padre:'Nancy Guardado/Juan Rivas',vc:'BRG25KY',dob:'21072011'},
+{id:'PSTA237',name:'Regina Isabela Sánchez Alvarado',gid:'bas-femenil-a',status:'adeudo',edad:'126',mayo:900,pin:'63-51-44',padre:'Sonia Ivett Alvarado Morales',vc:'BRG82UK',dob:'07092013'},
+{id:'PSTA078',name:'Regina Nicole Figueroa Contreras',gid:'vol-a',status:'adeudo',edad:'15',mayo:1000,pin:'39-09-86',padre:'Raúl Aziel Figueroa de la Mora/Sandra Contreras',vc:'BRG74YL',dob:'08052011'},
+{id:'PSTA222',name:'Rodrigo Eslava Malpica',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:900,pin:'97-21-00',padre:'Marcela Malpica',vc:'BRG90WS',dob:'28072013'},
+{id:'PSTA166',name:'Rodrigo Murúa Flores',gid:'bas-b',status:'adeudo',edad:'9',mayo:1000,pin:'43-51-70',padre:'Cinthia Flores',vc:'BRG15ZG',dob:'05082016'},
+{id:'PSTA227',name:'Rogelio López Robles',gid:'bas-varonil-a',status:'adeudo',edad:'12',mayo:900,pin:'53-84-65',padre:'Laura Mayela Robles Rodriguez',vc:'BRG31RL',dob:'29092013'},
+{id:'PSTA172',name:'Romina Danae Rosales Villegas',gid:'bas-b',status:'adeudo',edad:'11',mayo:1000,pin:'13-06-85',padre:'María Villegas (Cony)',vc:'BRG41BF',dob:'01032015'},
+{id:'PSTA082',name:'Romina González Rios',gid:'vol-a',status:'adeudo',edad:'11',mayo:1000,pin:'41-77-14',padre:'Fabiola Ríos Hernández',vc:'BRG81TG',dob:'01092014'},
+{id:'PSTA156',name:'Santiago Acero Cupa',gid:'bas-b',status:'adeudo',edad:'9',mayo:0,pin:'88-67-11',padre:'Fabiola Cupa Gutiérrez',vc:'BRG26LB',dob:'12072016'},
+{id:'PSTA179',name:'Santiago Rojas Rubio',gid:'bas-b',status:'adeudo',edad:'8',mayo:1000,pin:'75-88-96',padre:'Karen Rubio Espinosa',vc:'BRG66CX',dob:'21042018'},
+{id:'PSTA179',name:'Santiago Rojas Rubio',gid:'tochito-a',status:'adeudo',edad:'8',mayo:1000,pin:'75-88-96',padre:'Karen Rubio Espinosa',vc:'BRG66CX',dob:'21042018'},
+{id:'PSTA142',name:'Santiago Schmidt Rodríguez',gid:'tochito-b',status:'adeudo',edad:'12',mayo:720,pin:'22-63-21',padre:'Erandi Rodríguez',vc:'BRG12JJ',dob:'10022014'},
+{id:'PSTA198',name:'Sara Itzel Cazares Tapia',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'82-12-25',padre:'Paulina Tapia López',vc:'BRG88GU',dob:'04062012'},
+{id:'PSTA153',name:'Sara Valeria Campos Vargas',gid:'tochito-a',status:'adeudo',edad:'10',mayo:1000,pin:'26-29-32',padre:'Miguel Campos/Berenice Vargas',vc:'BRG98SD',dob:'06112015'},
+{id:'PSTA206',name:'Saulo Marrón Gómez',gid:'tochito-a',status:'adeudo',edad:'9',mayo:1000,pin:'84-91-73',padre:'Karina Guadalupe Gómez',vc:'BRG69ZG',dob:'07122016'},
+{id:'PSTA239',name:'Sebastián de la Cabada Borda',gid:'tochito-b',status:'activo',edad:'13',mayo:0,pin:'70-57-33',padre:'María Carolina Borda García',vc:'BRG14EX',dob:'28042012'},
+{id:'PSTA091',name:'Sebastián Domínguez Bustos',gid:'bas-b',status:'adeudo',edad:'9',mayo:0,pin:'86-20-75',padre:'Rocío Bustos',vc:'BRG85KT',dob:'20102016'},
+{id:'PSTA092',name:'Sebastián Gutiérrez Torres',gid:'bas-varonil-a',status:'adeudo',edad:'14',mayo:1000,pin:'55-99-56',padre:'Miriam Torres',vc:'BRG19KD',dob:'26092011'},
+{id:'PSTA216',name:'Sergio Ismael Alvarado Chávez',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'38-11-50',padre:'Vanessa Berenice',vc:'BRG36JD',dob:'24012013'},
+{id:'PSTA234',name:'Sofia Canela Madrigal',gid:'tochito-b',status:'adeudo',edad:'11',mayo:900,pin:'56-85-94',padre:'César Canela',vc:'BRG38LN',dob:'06042015'},
+{id:'PSTA143',name:'Sofía Carolina González Lerma',gid:'vol-b',status:'adeudo',edad:'13',mayo:1000,pin:'54-18-54',padre:'Carolina Lerma Lizárraga',vc:'BRG63ZW',dob:'08112012'},
+{id:'PSTA149',name:'Sofía Fernanda López Valadez',gid:'vol-b',status:'adeudo',edad:'12',mayo:1000,pin:'65-70-66',padre:'Alba Elena Valadez Cervantes',vc:'BRG33FK',dob:'05012014'},
+{id:'PSTA130',name:'Sofia Fletes Topete (sin acento)',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'71-38-88',padre:'Claudia Topete',vc:'BRG80LB',dob:'07072011'},
+{id:'PSTA157',name:'Sofía Siré Arreola Viayra',gid:'vol-a',status:'adeudo',edad:'13',mayo:1000,pin:'67-40-53',padre:'Jaime Alfonso Arreola Scull',vc:'BRG23VW',dob:'29062012'},
+{id:'PSTA194',name:'Tadeo García Arellano',gid:'bas-b',status:'adeudo',edad:'11',mayo:900,pin:'59-28-06',padre:'Carmen Berenice Arellano',vc:'BRG85RS',dob:'12022015'},
+{id:'PSTA199',name:'Valentina Íñiguez López',gid:'tochito-b',status:'adeudo',edad:'14',mayo:1000,pin:'20-77-16',padre:'Yudith López',vc:'BRG83VK',dob:'14122011'},
+{id:'PSTA106',name:'Valentina Saldaña Asomoza',gid:'vol-a',status:'adeudo',edad:'13',mayo:720,pin:'44-03-72',padre:'Berenice Asomoza',vc:'BRG37RQ',dob:'18042013'},
+{id:'PSTA202',name:'Varenka Carvente Plata',gid:'tochito-b',status:'adeudo',edad:'13',mayo:1000,pin:'38-96-89',padre:'Raúl Carvente',vc:'BRG55DE',dob:'11062012'},
+{id:'PSTA112',name:'Victoria Barajas Godinez',gid:'vol-a',status:'activo',edad:'13',mayo:1,pin:'33-11-83',padre:'Vicky Alejandra Godínez',vc:'BRG53HD',dob:'03122012'},
+{id:'PSTA203',name:'Ximena Montserrat Lizarraga Lozoya',gid:'vol-a',status:'adeudo',edad:'14',mayo:1000,pin:'79-71-29',padre:'Araceli Lozoya',vc:'BRG56LN',dob:'28102011'},
+{id:'PSTA125',name:'Amelie Olvera Gachuzo',gid:'bas-femenil-a',status:'baja',edad:'12',mayo:0,pin:'',padre:'Diana  Alejandra Gachuzo',vc:'BRG74SW',dob:'13042014'},
+{id:'PSTA006',name:'Ana Paula Rodríguez Reyes',gid:'tochito-a',status:'baja',edad:'9',mayo:0,pin:'',padre:'Froylan Rodríguez',vc:'BRG52NW',dob:'25042017'},
+{id:'PSTA008',name:'Ana Victoria Gil Moncada',gid:'vol-a',status:'baja',edad:'10',mayo:0,pin:'',padre:'Victoria Moncada',vc:'BRG56EY',dob:'20062015'},
+{id:'PSTA217',name:'André Coutigno Aguilar',gid:'bas-b',status:'baja',edad:'10',mayo:0,pin:'',padre:'Brenda Aguilar',vc:'BRG10UN',dob:'22082015'},
+{id:'PSTA010',name:'André Nicolás Bella López',gid:'bas-b',status:'baja',edad:'12',mayo:0,pin:'',padre:'Adriana López',vc:'BRG68YK',dob:'29072013'},
+{id:'PSTA016',name:'Ashley Guizar Espinoza',gid:'vol-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Ruth Espinosa Chavira',vc:'BRG52AP',dob:'22072014'},
+{id:'PSTA190',name:'Bárbara Cervantes García',gid:'vol-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Claudia García',vc:'BRG68EG',dob:'10092014'},
+{id:'PSTA168',name:'Dalia Victoria Ibarra Villarreal',gid:'bas-femenil-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Dalia Villarreal',vc:'BRG25DQ',dob:'11042011'},
+{id:'PSTA024',name:'Diego Kaleb Sánchez Valle',gid:'bas-varonil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Gemma Graciela Valle Jimenez',vc:'BRG64NL',dob:'04072011'},
+{id:'PSTA145',name:'Emilio Estrada Inzunza',gid:'bas-varonil-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Elayne Inzunza',vc:'BRG67RS',dob:'04032013'},
+{id:'PSTA029',name:'Fatima Arroyo Moran',gid:'vol-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Zayda Morán',vc:'BRG42QK',dob:'09072011'},
+{id:'PSTA167',name:'Ian Fernando Almada Ortega',gid:'bas-varonil-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Lupita Ortega',vc:'BRG65HJ',dob:'24022011'},
+{id:'PSTA197',name:'Ivanna Servin Brizuela',gid:'tochito-b',status:'baja',edad:'14',mayo:0,pin:'',padre:'Liliana Brizuela Rosas',vc:'BRG44EC',dob:'01092011'},
+{id:'PSTA038',name:'Ivanna Sofía Hernández Miranda',gid:'bas-femenil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Cristina Miranda/Alberto Hernández',vc:'BRG35VL',dob:'20092011'},
+{id:'PSTA055',name:'María Fernanda Flores Martínez',gid:'bas-femenil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Gabriela Martínez Pedro',vc:'BRG12WN',dob:'07102011'},
+{id:'PSTA191',name:'María Inés Cervantes García',gid:'vol-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Claudia García',vc:'BRG49RB',dob:'25012013'},
+{id:'PSTA158',name:'Maria Valentina Flores Martinez',gid:'bas-femenil-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Gabriela Martínez Pedro',vc:'BRG42QA',dob:'20122014'},
+{id:'PSTA129',name:'Máximo Gerardo Valenzuela Varela',gid:'tochito-b',status:'baja',edad:'12',mayo:0,pin:'',padre:'Gerardo Valenzuela/ Claudia varela',vc:'BRG50YX',dob:'12072013'},
+{id:'PSTA063',name:'Maya Zoé Ramírez Caamaño',gid:'vol-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Marcela Caamaño',vc:'BRG30CK',dob:'13032011'},
+{id:'PSTA065',name:'Melissa Ramírez Ornelas',gid:'bas-femenil-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Karen Ornelas',vc:'BRG82GQ',dob:'11062011'},
+{id:'PSTA196',name:'Mía Rangel Valencia',gid:'tochito-b',status:'baja',edad:'13',mayo:0,pin:'',padre:'Myriam Valencia',vc:'BRG59HH',dob:'16062012'},
+{id:'PSTA068',name:'Naim Salazar Martínez',gid:'bas-varonil-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Ana Fabiola Martínez',vc:'BRG23VT',dob:'22092010'},
+{id:'PSTA077',name:'Regina Barajas López',gid:'vol-a',status:'baja',edad:'15',mayo:0,pin:'',padre:'Blanca Estela López Guizar',vc:'BRG35PF',dob:'17122010'},
+{id:'PSTA080',name:'Renata Vallejo Murguía',gid:'vol-a',status:'baja',edad:'14',mayo:0,pin:'',padre:'Kenya Murguía Gómez',vc:'BRG80EJ',dob:'20012012'},
+{id:'PSTA150',name:'Santiago Joseph Villa Morales',gid:'bas-varonil-a',status:'baja',edad:'16',mayo:0,pin:'',padre:'Ana María Morales Hernández',vc:'BRG42JB',dob:'16042010'},
+{id:'PSTA079',name:'Silvia Regina Rodríguez Reyes',gid:'tochito-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Froylan Rodríguez',vc:'BRG25KV',dob:'21012013'},
+{id:'PSTA102',name:'Valentina Hernández Miranda',gid:'bas-femenil-a',status:'baja',edad:'12',mayo:0,pin:'',padre:'Cristina Miranda/Alberto Hernández',vc:'BRG62YT',dob:'22112013'},
+{id:'PSTA105',name:'Valentina Rodríguez Reyes',gid:'tochito-a',status:'baja',edad:'11',mayo:0,pin:'',padre:'Froylan Rodríguez',vc:'BRG89VS',dob:'07062014'},
+{id:'PSTA169',name:'Viviana Ibarra Villarreal',gid:'bas-femenil-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Dalia Villarreal',vc:'BRG13XA',dob:'25032013'},
+{id:'PSTA113',name:'Ximena Beltran del Angel',gid:'vol-a',status:'baja',edad:'13',mayo:0,pin:'',padre:'Alejandro Beltrán',vc:'BRG40AM',dob:'07112012'},
+{id:'PSTA115',name:'Ximena Valentina Torres García',gid:'vol-a',status:'baja',edad:'14',mayo:1,pin:'',padre:'Gabriela García',vc:'BRG28NB',dob:'21112011'}
+];
+var COACHES=[{"id": "c1", "name": "Michel Silva", "nomina": "L03546991", "email": "michel.silva44@tec.mx", "color": "#1D4ED8", "gids": ["bas-varonil-a", "bas-femenil-a", "bas-b"]}, {"id": "c2", "name": "C\u00e9sar Pasillas", "nomina": "L03040705", "email": "cesar.pasillas@tec.mx", "color": "#059669", "gids": ["vol-a", "vol-b"]}, {"id": "c3", "name": "Carmen Le\u00f3n", "nomina": "L03532178", "email": "_leon.carmen@tec.mx", "color": "#D97706", "gids": ["tochito-a", "tochito-b"]}];
+
+// ── State ─────────────────────────────────────────────────────
+var currentCoach  = null;
+var activeGid     = null;
+var activeNav     = "home";
+var attendance    = {};
+var coachMessages = [
+  {id:"m1",gid:"vol-a",   from:"César Pasillas", date:"2026-05-24",type:"info",  text:"Entrenamiento del lunes 26 se mueve a las 7pm por mantenimiento."},
+  {id:"m2",gid:"bas-varonil-a",from:"Michel Silva",date:"2026-05-23",type:"event",text:"Torneo interno sábado 31 mayo, 10am. Uniforme completo. Llegar 30 min antes."},
+  {id:"m3",gid:"tochito-b",from:"Carmen León",    date:"2026-05-22",type:"alert",text:"Alumnos con adeudo no podrán ingresar a partir del lunes."},
+  {id:"m4",gid:"bas-b",   from:"Michel Silva",    date:"2026-05-21",type:"info",  text:"Se suspende práctica del jueves 22 por evento escolar."},
+  {id:"m5",gid:"vol-b",   from:"César Pasillas",  date:"2026-05-20",type:"event",text:"Exhibición final: sábado 14 junio, 11am. Inviten a la familia."},
+];
+var selectedMsgType = "info";
+var searchQuery     = "";
+
+// ── Security ──────────────────────────────────────────────────
+var attempts    = 0;
+var MAX_ATT     = 5;
+var lockedUntil = 0;
+var lockInt     = null;
+
+function isLocked() { return Date.now() < lockedUntil; }
+
+function startLock() {
+  lockedUntil = Date.now() + 300000;
+  document.getElementById("login-section").style.display  = "none";
+  document.getElementById("lock-section").style.display   = "block";
+  updateLockTimer();
+  lockInt = setInterval(function() {
+    if (!isLocked()) {
+      clearInterval(lockInt);
+      attempts = 0;
+      document.getElementById("lock-section").style.display  = "none";
+      document.getElementById("login-section").style.display = "block";
+      document.getElementById("nomina-input").value = "";
+      document.getElementById("error-box").style.display = "none";
+      document.getElementById("warn-box").style.display  = "none";
+    } else { updateLockTimer(); }
+  }, 1000);
+}
+
+function updateLockTimer() {
+  var s = Math.max(0, Math.ceil((lockedUntil - Date.now()) / 1000));
+  document.getElementById("lock-timer").textContent = Math.floor(s/60) + ":" + (s%60<10?"0":"") + s%60;
+}
+
+// ── Login ─────────────────────────────────────────────────────
+function doLogin() {
+  if (isLocked()) return;
+  var nom = (document.getElementById("nomina-input").value||"").trim().toUpperCase();
+  if (!nom) return;
+  var coach = COACHES.find(function(c){ return c.nomina.toUpperCase() === nom; });
+  if (!coach) {
+    attempts++;
+    var rem = MAX_ATT - attempts;
+    document.getElementById("error-box").style.display = "block";
+    if (attempts >= MAX_ATT) { startLock(); return; }
+    if (rem <= 2) {
+      document.getElementById("warn-box").textContent = "⚠️ " + rem + " intento" + (rem===1?"":"s") + " restante" + (rem===1?"":"s") + " antes de bloquear por 5 minutos.";
+      document.getElementById("warn-box").style.display = "block";
+    }
+    return;
+  }
+  attempts = 0;
+  currentCoach = coach;
+  activeGid    = coach.gids[0];
+  activeNav    = "home";
+  document.getElementById("login-section").style.display    = "none";
+  document.getElementById("dashboard-section").style.display = "block";
+  document.getElementById("footer-bar").style.display        = "none";
+  renderDashboard();
+}
+
+function doLogout() {
+  currentCoach = null;
+  document.getElementById("dashboard-section").style.display = "none";
+  document.getElementById("login-section").style.display     = "block";
+  document.getElementById("footer-bar").style.display        = "block";
+  document.getElementById("nomina-input").value = "";
+}
+
+// ── Dashboard ─────────────────────────────────────────────────
+function renderDashboard() {
+  var dash = document.getElementById("dashboard-section");
+  var c    = currentCoach;
+  var g    = GROUPS[activeGid] || {};
+
+  var html =
+    // Coach header
+    '<div class="coach-header anim" style="--cc:' + c.color + '">' +
+    '<div class="coach-av">' + ini(c.name) + '</div>' +
+    '<div class="coach-info">' +
+    '<div class="coach-name">' + escH(c.name) + '</div>' +
+    '<div class="coach-role">Coach · Club Borregos Santa Anita</div>' +
+    '<div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;font-family:monospace">' + c.nomina + '</div>' +
+    '</div>' +
+    '<button class="logout-btn" onclick="doLogout()">↩ Salir</button>' +
+    '</div>' +
+
+    // Group tabs
+    '<div class="group-tabs">';
+
+  c.gids.forEach(function(gid) {
+    var gg  = GROUPS[gid] || {};
+    var cnt = SD.filter(function(s){return s.gid===gid && s.status!=="baja";}).length;
+    var isActive = gid === activeGid;
+    html += '<button class="gtab' + (isActive?" active":"") + '" ' +
+      'style="' + (isActive ? "background:"+c.color+";border-color:"+c.color : "") + '"' +
+      ' data-sgid="' + gid + '" onclick="switchGrp(this)">' +
+      (gg.ico||"") + ' ' + escH(gg.short||gid) + ' <span style="opacity:.7">(' + cnt + ')</span></button>';
+  });
+  html += '</div>' +
+
+    // Nav pills
+    '<div class="nav-row">' +
+    navPill("home",    "🏠 Inicio") +
+    navPill("lista",   "👦 Mi Lista") +
+    navPill("asist",   "✅ Asistencia") +
+    navPill("mensajes","💬 Mensajes") +
+    '</div>' +
+
+    // Content area
+    '<div id="content-area" class="anim"></div>';
+
+  dash.innerHTML = html;
+  renderSection();
+}
+
+function navPill(id, label) {
+  return '<button class="nav-pill' + (activeNav===id?" active":"") + '" data-nav="' + id + '" onclick="switchNavBtn(this)">' + label + '</button>';
+}
+
+function switchGroup(gid) {
+  activeGid  = gid;
+  activeNav  = "home";
+  renderDashboard();
+}
+
+function switchNav(nav) {
+  activeNav = nav;
+  // Re-render just nav pills + content
+  document.querySelectorAll(".nav-pill").forEach(function(b) {
+    b.classList.toggle("active", b.textContent.includes(
+      nav==="home"?"Inicio":nav==="lista"?"Lista":nav==="asist"?"Asistencia":"Mensajes"
+    ));
+  });
+  renderSection();
+}
+
+function renderSection() {
+  var area = document.getElementById("content-area");
+  if (!area) return;
+  if (activeNav === "home")     renderHome(area);
+  else if (activeNav === "lista")    renderLista(area);
+  else if (activeNav === "asist")    renderAsist(area);
+  else if (activeNav === "mensajes") renderMensajes(area);
+}
+
+// ── HOME ──────────────────────────────────────────────────────
+function renderHome(area) {
+  var g   = GROUPS[activeGid] || {};
+  var mem = SD.filter(function(s){return s.gid===activeGid && s.status!=="baja";});
+  var act = mem.filter(function(s){return s.status==="activo";}).length;
+  var ade = mem.filter(function(s){return s.status==="adeudo";}).length;
+  var todayKey   = activeGid + "-today";
+  var presentCnt = Object.values(attendance[todayKey]||{}).filter(Boolean).length;
+  var today      = new Date().toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+
+  area.innerHTML =
+    '<div style="font-size:13px;color:#64748B;margin-bottom:14px">📅 ' + today + '</div>' +
+
+    '<div class="stats-row">' +
+    statBox(mem.length, "Total",    "#EFF6FF","#1A4578","#DBEAFE") +
+    statBox(act,        "Activos",  "#ECFDF5","#065F46","#A7F3D0") +
+    statBox(presentCnt, "Hoy",      "#F5F3FF","#5B21B6","#DDD6FE") +
+    '</div>' +
+
+    (ade > 0
+      ? '<div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 13px;font-size:12px;color:#92400E;margin-bottom:14px;font-weight:600">⚠️ ' + ade + ' alumno' + (ade>1?"s":"") + ' con adeudo en este grupo</div>'
+      : '') +
+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">' +
+    quickBtn("✅","Asistencia","de hoy","asist","#ECFDF5","#A7F3D0","#065F46") +
+    quickBtn("👦","Mi Lista",  mem.length + " alumnos","lista","#F8FAFC","#E2E8F0","#1E293B") +
+    quickBtn("💬","Mensajes",  "enviar aviso","mensajes","#EFF6FF","#BFDBFE","#1E40AF") +
+    quickBtn("📊","Resumen",   "del grupo","home","#F5F3FF","#DDD6FE","#5B21B6") +
+    '</div>';
+}
+
+function statBox(val, lbl, bg, tc, bd) {
+  return '<div class="stat-box" style="background:' + bg + ';border-color:' + bd + '">' +
+    '<div class="stat-val" style="color:' + tc + '">' + val + '</div>' +
+    '<div class="stat-lbl">' + lbl + '</div></div>';
+}
+
+function quickBtn(ico, title, sub, nav, bg, bd, tc) {
+  return '<button data-nav="' + nav + '" onclick="switchNavBtn(this)" style="background:' + bg + ';border:1.5px solid ' + bd + ';border-radius:13px;padding:13px 12px;text-align:left;cursor:pointer;font-family:inherit;transition:all .15s">' +
+    '<div style="font-size:22px;margin-bottom:6px">' + ico + '</div>' +
+    '<div style="font-size:13px;font-weight:700;color:' + tc + '">' + title + '</div>' +
+    '<div style="font-size:11px;color:#64748B;margin-top:1px">' + sub + '</div></button>';
+}
+
+// ── LISTA ─────────────────────────────────────────────────────
+function renderLista(area) {
+  var g   = GROUPS[activeGid] || {};
+  var mem = SD.filter(function(s){return s.gid===activeGid && s.status!=="baja";});
+  var filtered = searchQuery
+    ? mem.filter(function(s){ return s.name.toLowerCase().includes(searchQuery.toLowerCase()); })
+    : mem;
+
+  var html =
+    '<div class="section-title">' + (g.ico||"") + ' ' + escH(g.n||"") + ' · ' + mem.length + ' alumnos</div>' +
+    '<div class="search-wrap"><input type="text" placeholder="Buscar alumno…" value="' + escH(searchQuery) + '" oninput="searchQuery=this.value;renderSection()" /></div>' +
+    '<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">' +
+    '<thead style="background:#F8FAFC"><tr>' +
+    '<th style="padding:8px 12px;font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid #E2E8F0">#</th>' +
+    '<th style="padding:8px 12px;font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid #E2E8F0">Alumno</th>' +
+    '<th style="padding:8px 12px;font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid #E2E8F0">Edad</th>' +
+    '<th style="padding:8px 12px;font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;text-align:left;border-bottom:1px solid #E2E8F0">Estatus</th>' +
+    '</tr></thead><tbody>';
+
+  filtered.forEach(function(s, i) {
+    var c = currentCoach.color;
+    html += '<tr style="border-bottom:1px solid #F1F5F9">' +
+      '<td style="padding:9px 12px;font-size:11px;color:#94A3B8;font-family:monospace">' + (i+1) + '</td>' +
+      '<td style="padding:9px 12px">' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:' + c + ';color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + ini(s.name) + '</div>' +
+        '<div><div style="font-size:13px;font-weight:600;color:#0F172A">' + escH(s.name) + '</div>' +
+        '<div style="font-size:10px;color:#94A3B8;font-family:monospace">' + s.id + '</div></div></div>' +
+      '</td>' +
+      '<td style="padding:9px 12px;font-size:13px;font-weight:600;color:#334155">' + (s.edad||"—") + '</td>' +
+      '<td style="padding:9px 12px">' + statusPill(s.status) + '</td>' +
+      '</tr>';
+  });
+  html += '</tbody></table></div></div>' +
+    '<div style="margin-top:10px;padding:10px 12px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:9px;font-size:12px;color:#1E40AF">ℹ️ Solo lectura — cambios de estatus y pagos los gestiona el administrador.</div>';
+  area.innerHTML = html;
+}
+
+// ── ASISTENCIA ────────────────────────────────────────────────
+function renderAsist(area) {
+  var g        = GROUPS[activeGid] || {};
+  var mem      = SD.filter(function(s){return s.gid===activeGid && s.status!=="baja";});
+  var todayKey = activeGid + "-today";
+  var todayAtt = attendance[todayKey] || {};
+  var present  = Object.values(todayAtt).filter(Boolean).length;
+  var today    = new Date().toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+
+  var html =
+    '<div class="section-title">📅 ' + today + '</div>' +
+    '<div class="stats-row" style="margin-bottom:12px">' +
+    statBox(mem.length,           "Total",    "#EFF6FF","#1A4578","#DBEAFE") +
+    statBox(present,              "Presentes","#ECFDF5","#065F46","#A7F3D0") +
+    statBox(mem.length - present, "Ausentes", "#FEF2F2","#991B1B","#FECACA") +
+    '</div>';
+
+  html += '<div id="att-list"></div>' +
+    '<button class="save-btn" onclick="saveAttendance()">Guardar asistencia (' + present + '/' + mem.length + ')</button>' +
+    '<div class="save-confirm" id="save-confirm">✅ Asistencia guardada correctamente</div>';
+
+  area.innerHTML = html;
+
+  var list = document.getElementById("att-list");
+  mem.forEach(function(s) {
+    var here = !!todayAtt[s.id];
+    var btn  = document.createElement("button");
+    btn.className = "att-btn" + (here ? " present" : "");
+    btn.innerHTML =
+      '<div class="att-check">' + (here ? "✓" : "") + '</div>' +
+      '<div style="width:36px;height:36px;border-radius:50%;background:' + currentCoach.color + ';color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + ini(s.name) + '</div>' +
+      '<div class="att-name">' + escH(s.name) + '<div class="stu-meta">' + s.edad + ' años</div></div>' +
+      '<div class="att-status">' + (here ? "✓ Presente" : "Ausente") + '</div>';
+    btn.onclick = function() {
+      if (!attendance[todayKey]) attendance[todayKey] = {};
+      attendance[todayKey][s.id] = !todayAtt[s.id];
+      renderAsist(area);
+    };
+    list.appendChild(btn);
+  });
+}
+
+function saveAttendance() {
+  var g        = GROUPS[activeGid] || {};
+  var mem      = SD.filter(function(s){return s.gid===activeGid && s.status!=="baja";});
+  var todayKey = activeGid + "-today";
+  var present  = Object.values(attendance[todayKey]||{}).filter(Boolean).length;
+  var conf     = document.getElementById("save-confirm");
+  if (conf) {
+    conf.style.display = "block";
+    conf.textContent = "✅ Asistencia guardada: " + present + "/" + mem.length + " presentes en " + escH(g.n||"");
+    setTimeout(function(){ conf.style.display = "none"; }, 3000);
+  }
+}
+
+// ── MENSAJES ──────────────────────────────────────────────────
+function renderMensajes(area) {
+  var g    = GROUPS[activeGid] || {};
+  var msgs = coachMessages.filter(function(m){return m.gid===activeGid;});
+  var typeMap = {
+    info:  {ico:"ℹ️", lbl:"Info",   bg:"#EFF6FF",tc:"#1E40AF"},
+    event: {ico:"📅", lbl:"Evento", bg:"#ECFDF5",tc:"#065F46"},
+    alert: {ico:"⚠️", lbl:"Alerta", bg:"#FFFBEB",tc:"#92400E"},
+  };
+
+  var html =
+    '<div class="section-title">✏️ Nuevo mensaje para ' + escH(g.short||"") + '</div>' +
+    '<div class="card" style="padding:14px;margin-bottom:14px">' +
+    '<div class="msg-type-row">' +
+    Object.keys(typeMap).map(function(k){
+      return '<button class="msg-type-btn' + (selectedMsgType===k?" active":"") + '" data-mtype="' + k + '" onclick="selMsgTypeBtn(this)">' + typeMap[k].ico + ' ' + typeMap[k].lbl + '</button>';
+    }).join("") +
+    '</div>' +
+    '<textarea class="msg-textarea" id="msg-txt" rows="3" placeholder="Escribe el aviso para los padres de ' + escH(g.short||"") + '…"></textarea>' +
+    '<button class="send-btn" onclick="sendMsg()">Enviar a padres →</button>' +
+    '<div id="msg-ok" style="display:none;margin-top:8px;padding:8px 12px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;font-size:12px;font-weight:600;color:#065F46">✅ Mensaje enviado</div>' +
+    '</div>';
+
+  if (msgs.length > 0) {
+    html += '<div class="section-title">📨 Mensajes enviados (' + msgs.length + ')</div>';
+    msgs.forEach(function(m) {
+      var tp = typeMap[m.type] || typeMap.info;
+      html +=
+        '<div class="msg-item">' +
+        '<div class="msg-item-head" style="background:' + tp.bg + '">' +
+        '<span style="font-size:16px">' + tp.ico + '</span>' +
+        '<div style="flex:1"><div style="font-size:11px;font-weight:700;color:' + tp.tc + '">' + tp.lbl + ' · ' + escH(g.short||"") + '</div>' +
+        '<div style="font-size:10px;color:#94A3B8">' + m.date + '</div></div></div>' +
+        '<div class="msg-item-body">' + escH(m.text) + '</div></div>';
+    });
+  } else {
+    html += '<div style="text-align:center;padding:32px;background:#fff;border-radius:14px;border:1px solid #E2E8F0;color:#94A3B8;font-size:13px">Sin mensajes enviados aún</div>';
+  }
+  area.innerHTML = html;
+}
+
+function selMsgType(type) {
+  selectedMsgType = type;
+  renderMensajes(document.getElementById("content-area"));
+}
+
+function sendMsg() {
+  var txt = (document.getElementById("msg-txt")||{}).value || "";
+  if (!txt.trim()) return;
+  coachMessages.unshift({
+    id:   "m" + Date.now(),
+    gid:  activeGid,
+    from: currentCoach.name,
+    date: new Date().toISOString().slice(0,10),
+    type: selectedMsgType,
+    text: txt.trim()
+  });
+  var ok = document.getElementById("msg-ok");
+  if (ok) { ok.style.display = "block"; setTimeout(function(){ ok.style.display="none"; },2500); }
+  renderMensajes(document.getElementById("content-area"));
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function ini(n) { return (n||"").split(" ").slice(0,2).map(function(w){return w[0]||""}).join("").toUpperCase(); }
+function escH(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function statusPill(status) {
+  var m = {activo:{bg:"#ECFDF5",tx:"#065F46",dot:"#10B981",l:"Activo"},adeudo:{bg:"#FFFBEB",tx:"#92400E",dot:"#F59E0B",l:"Adeudo"},baja:{bg:"#FEF2F2",tx:"#991B1B",dot:"#EF4444",l:"Baja"}};
+  var p = m[status]||m.activo;
+  return '<span class="pill" style="background:'+p.bg+';color:'+p.tx+';border:1px solid '+p.dot+'44"><span style="width:5px;height:5px;border-radius:50%;background:'+p.dot+';display:inline-block;margin-right:3px"></span>'+p.l+'</span>';
+}
+
+var _fi=document.getElementById("nomina-input"); if(_fi&&_fi.focus) _fi.focus();
+</script>
+</body>
+</html>
