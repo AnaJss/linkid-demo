@@ -649,7 +649,7 @@ function renderMensajes(area) {
     }).join("") +
     '</div>' +
     '<textarea class="msg-textarea" id="msg-txt" rows="3" placeholder="Escribe el aviso para los padres de ' + escH(g.short||"") + '…"></textarea>' +
-    '<button class="send-btn" onclick="sendMsg()">Enviar a padres →</button>' +
+    '<button class="send-btn" onclick="sendMsg()">Guardar y generar enlace WhatsApp 📲</button>' +
     '<div id="msg-ok" style="display:none;margin-top:8px;padding:8px 12px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;font-size:12px;font-weight:600;color:#065F46">✅ Mensaje enviado</div>' +
     '</div>';
 
@@ -679,6 +679,8 @@ function selMsgType(type) {
 function sendMsg() {
   var txt = (document.getElementById("msg-txt")||{}).value || "";
   if (!txt.trim()) return;
+  var g = GROUPS[activeGid] || {};
+
   coachMessages.unshift({
     id:   "m" + Date.now(),
     gid:  activeGid,
@@ -687,9 +689,20 @@ function sendMsg() {
     type: selectedMsgType,
     text: txt.trim()
   });
+
+  // Build WhatsApp message
+  var typeLabel = selectedMsgType==="alert"?"⚠️ Alerta":selectedMsgType==="event"?"📅 Evento":"ℹ️ Info";
+  var waText = "*" + typeLabel + " · " + escH(g.n||"") + "*\n\n" + txt.trim() + "\n\n_Coach " + currentCoach.name + " · Club Borregos Santa Anita_";
+  var waUrl  = "https://wa.me/?text=" + encodeURIComponent(waText);
+
+  // Show confirmation + WhatsApp button
   var ok = document.getElementById("msg-ok");
-  if (ok) { ok.style.display = "block"; setTimeout(function(){ ok.style.display="none"; },2500); }
-  renderMensajes(document.getElementById("content-area"));
+  if (ok) {
+    ok.innerHTML = '✅ Mensaje guardado · <a href="' + waUrl + '" target="_blank" style="color:#25D366;font-weight:700;text-decoration:none">📲 Enviar por WhatsApp →</a>';
+    ok.style.display = "block";
+  }
+  document.getElementById("msg-txt").value = "";
+  setTimeout(function(){ renderMensajes(document.getElementById("content-area")); }, 300);
 }
 
 // ── Helpers ───────────────────────────────────────────────────
